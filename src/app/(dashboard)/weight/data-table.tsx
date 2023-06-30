@@ -3,6 +3,7 @@
 import React from "react"
 import {
   ColumnDef,
+  RowData,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
@@ -29,17 +30,39 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
+  const [selectedRowsData, setSelectedRowsData] = React.useState<RowData[]>([])
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: (selectedRowIds) => {
+      setRowSelection(selectedRowIds), handleSelectedRows()
+    },
     state: {
       rowSelection,
     },
   })
+
+  console.log(selectedRowsData)
+
+  // Function to handle storing selected row data
+  const handleSelectedRows = () => {
+    const selectedRows = table.getFilteredSelectedRowModel().rows
+    const selectedData: RowData[] = []
+
+    selectedRows.forEach((row) => {
+      const rowData = row.original
+      selectedData.push(rowData)
+    })
+
+    setSelectedRowsData(selectedData)
+  }
+
+  React.useEffect(() => {
+    handleSelectedRows()
+  }, [rowSelection])
 
   return (
     <div>
@@ -94,6 +117,10 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
         <Button
           variant="outline"
           size="sm"
@@ -110,6 +137,15 @@ export function DataTable<TData, TValue>({
         >
           Next
         </Button>
+      </div>
+      <div>
+        {selectedRowsData.map((rowData, index) => (
+          <div key={index}>
+            {/* Display the relevant properties of rowData */}
+            <p>{rowData.weight}</p>
+            {/* Add more JSX to display other properties */}
+          </div>
+        ))}
       </div>
     </div>
   )

@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import React, { forwardRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
 import { useSessionContext } from "@supabase/auth-helpers-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -107,7 +108,7 @@ interface TableFormProps {
   setOpen: (open: boolean) => void
 }
 
-function TableForm({ weight, setOpen }: TableFormProps) {
+export function TableForm({ weight, setOpen }: TableFormProps) {
   const { supabaseClient } = useSessionContext()
   const router = useRouter()
 
@@ -152,17 +153,9 @@ function TableForm({ weight, setOpen }: TableFormProps) {
     router.refresh()
   }
 
-  const handleFormClick = (event: React.MouseEvent<HTMLFormElement>) => {
-    event.stopPropagation()
-  }
-
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8"
-        onClick={handleFormClick}
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
           name="weight"
@@ -223,35 +216,5 @@ function TableForm({ weight, setOpen }: TableFormProps) {
         <Button type="submit">Submit</Button>
       </form>
     </Form>
-  )
-}
-
-export function UpdateDialog({ weight }: { weight: Weight }) {
-  const [open, setOpen] = useState(false) // Stops the dialog from clsoing
-
-  const handleClick = (event: { preventDefault: () => void }) => {
-    event.preventDefault() // Prevents the default behavior of the button click
-    setOpen(true) // Opens the delete dialog
-  }
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <button onClick={handleClick}>Update</button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add weight</DialogTitle>
-          <DialogDescription>
-            Click save when you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid items-center gap-4">
-            <TableForm weight={weight} setOpen={setOpen} />
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
   )
 }

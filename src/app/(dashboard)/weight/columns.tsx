@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 
@@ -9,6 +10,14 @@ import { Button, buttonVariants } from "@/components/ui/button"
 // You can use a Zod schema here if you want.
 import { Checkbox } from "@/components/ui/checkbox"
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -17,7 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { DeleteDialog, UpdateDialog } from "./column-dialog"
+import { DeleteDialog, TableForm } from "./column-dialog"
 
 export const columns: ColumnDef<Weight>[] = [
   {
@@ -78,6 +87,14 @@ export const columns: ColumnDef<Weight>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [open, setOpen] = useState(false) // Stops the dialog from clsoing
+
+      const handleClick = (event: { preventDefault: () => void }) => {
+        event.preventDefault() // Prevents the default behavior of the button click
+        setOpen(true) // Opens the delete dialog
+      }
+
       const weight = row.original
 
       return (
@@ -100,14 +117,34 @@ export const columns: ColumnDef<Weight>[] = [
               Copy
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onSelect={() => {
-                // fixes problem with dialog disabling all the buttons
-                document.body.style.pointerEvents = ""
-              }}
-            >
-              <UpdateDialog weight={weight} />
-            </DropdownMenuItem>
+
+            {/* Menu Item passed in dialog */}
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DropdownMenuItem
+                onSelect={(event) => {
+                  event.preventDefault()
+                }}
+              >
+                <DialogTrigger asChild>
+                  <button onClick={handleClick}>Update</button>
+                </DialogTrigger>
+              </DropdownMenuItem>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Add weight</DialogTitle>
+                  <DialogDescription>
+                    Click save when you&apos;re done.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid items-center gap-4">
+                    <TableForm weight={weight} setOpen={setOpen} />
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* Alert Dialog for Delete */}
             <DropdownMenuItem>
               <DeleteDialog id={weight.id} />
             </DropdownMenuItem>
