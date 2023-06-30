@@ -32,12 +32,12 @@ import { toast } from "@/components/ui/use-toast"
 
 type FormData = z.infer<typeof weightSchema>
 
-interface Props {
+interface TableFormProps {
   user_id: string
   setOpen: (open: boolean) => void
 }
 
-export function TableForm({ user_id, setOpen }: Props) {
+export function TableForm({ user_id, setOpen }: TableFormProps) {
   const { supabaseClient } = useSessionContext()
   const router = useRouter()
 
@@ -65,13 +65,6 @@ export function TableForm({ user_id, setOpen }: Props) {
       .select()
 
     if (error) {
-      if (error.code === "23505") {
-        return toast({
-          title: "Something went wrong.",
-          description: "Username already exists. Please enter another.",
-          variant: "destructive",
-        })
-      }
       return toast({
         title: "Something went wrong.",
         description: "No update was made.",
@@ -120,6 +113,11 @@ export function TableForm({ user_id, setOpen }: Props) {
                 <Input placeholder="looking good today" {...field} />
               </FormControl>
               <FormDescription>Enter the description here.</FormDescription>
+              {form.formState.errors.weight && (
+                <FormMessage>
+                  {form.formState.errors.description?.message}
+                </FormMessage>
+              )}
             </FormItem>
           )}
         />
@@ -134,6 +132,11 @@ export function TableForm({ user_id, setOpen }: Props) {
                 <Input placeholder="for premium users" {...field} />
               </FormControl>
               <FormDescription>Enter the weight URL here.</FormDescription>
+              {form.formState.errors.weight && (
+                <FormMessage>
+                  {form.formState.errors.weight_url?.message}
+                </FormMessage>
+              )}
             </FormItem>
           )}
         />
@@ -144,7 +147,7 @@ export function TableForm({ user_id, setOpen }: Props) {
   )
 }
 
-export function WeightDialog({ user_id }: Props) {
+export function WeightDialog({ user_id }: { user_id: string }) {
   const [open, setOpen] = useState(false)
 
   return (
