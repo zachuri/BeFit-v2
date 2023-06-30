@@ -1,24 +1,10 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { useSessionContext } from "@supabase/auth-helpers-react"
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 
 import { Weight } from "@/types/weight"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 import { Checkbox } from "@/components/ui/checkbox"
@@ -30,7 +16,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { toast } from "@/components/ui/use-toast"
+
+import { DeleteDialog, UpdateDialog } from "./column-dialog"
 
 export const columns: ColumnDef<Weight>[] = [
   {
@@ -113,7 +100,14 @@ export const columns: ColumnDef<Weight>[] = [
               Copy
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Update</DropdownMenuItem>
+            <DropdownMenuItem
+              onSelect={() => {
+                // fixes problem with dialog disabling all the buttons
+                document.body.style.pointerEvents = ""
+              }}
+            >
+              <UpdateDialog weight={weight} />
+            </DropdownMenuItem>
             <DropdownMenuItem>
               <DeleteDialog id={weight.id} />
             </DropdownMenuItem>
@@ -123,62 +117,3 @@ export const columns: ColumnDef<Weight>[] = [
     },
   },
 ]
-
-function DeleteDialog({ id }: { id: string }) {
-  const { supabaseClient } = useSessionContext()
-  const router = useRouter()
-
-  const [open, setOpen] = useState(false)
-
-  // Stops the dialog from clsoing
-  const handleClick = (event: { preventDefault: () => void }) => {
-    event.preventDefault() // Prevents the default behavior of the button click
-    setOpen(true) // Opens the delete dialog
-  }
-
-  async function handleDelete() {
-    const { data: response, error } = await supabaseClient
-      .from("weight")
-      .delete()
-      .eq("id", id)
-
-    if (error) {
-      return toast({
-        title: "Something went wrong.",
-        description: "No update was made.",
-        variant: "destructive",
-      })
-    }
-
-    toast({
-      description: "Your changes have been updated.",
-    })
-
-    setOpen(false)
-
-    router.refresh()
-  }
-
-  return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger asChild>
-        <button className="text-red-500" onClick={handleClick}>
-          Delete
-        </button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            current weight.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  )
-}
