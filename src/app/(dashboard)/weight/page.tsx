@@ -5,6 +5,8 @@ import { Weight } from "@/types/weight"
 import { getServerSession } from "@/lib/session"
 import { Card, CardTitle } from "@/components/ui/card"
 
+import { columns } from "./columns"
+import { DataTable } from "./data-table"
 import { WeightForm } from "./weight-form"
 
 export async function getUserWeight(user_id: string): Promise<Weight[]> {
@@ -31,13 +33,7 @@ export default async function Page() {
     <div className="flex-1 space-y-4 p-8 pt-6">
       <h2 className="text-3xl font-bold tracking-tight">Weight</h2>
       <WeightForm user_id={session.user.id} />
-      {weights.map((weight) => {
-        return (
-          <Card>
-            <CardTitle>{weight.weight}</CardTitle>
-          </Card>
-        )
-      })}
+      <DataTable columns={columns} data={weights} />
     </div>
   )
 }
