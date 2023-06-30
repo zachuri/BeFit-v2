@@ -216,13 +216,15 @@ export interface Database {
           created_at: string | null
           description: string | null
           id: string
+          user_id: string
           weight: number | null
           weight_url: string | null
         }
         Insert: {
           created_at?: string | null
           description?: string | null
-          id: string
+          id?: string
+          user_id: string
           weight?: number | null
           weight_url?: string | null
         }
@@ -230,6 +232,7 @@ export interface Database {
           created_at?: string | null
           description?: string | null
           id?: string
+          user_id?: string
           weight?: number | null
           weight_url?: string | null
         }
