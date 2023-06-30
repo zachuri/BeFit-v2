@@ -214,22 +214,22 @@ export interface Database {
       weight: {
         Row: {
           created_at: string | null
-          id: number
-          user_id: string | null
+          description: string | null
+          id: string
           weight: number | null
           weight_url: string | null
         }
         Insert: {
           created_at?: string | null
-          id?: number
-          user_id?: string | null
+          description?: string | null
+          id: string
           weight?: number | null
           weight_url?: string | null
         }
         Update: {
           created_at?: string | null
-          id?: number
-          user_id?: string | null
+          description?: string | null
+          id?: string
           weight?: number | null
           weight_url?: string | null
         }
