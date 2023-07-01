@@ -3,12 +3,11 @@ import { createSupabaseServerClient } from "@/utils/supabase-server"
 
 import { Weight } from "@/types/weight"
 import { getServerSession } from "@/lib/session"
-
+import { WeightForm } from "@/components/weight/input/weight-form"
 import { columns } from "@/components/weight/table/columns"
 import { DataTable } from "@/components/weight/table/data-table"
-import { WeightForm } from "@/components/weight/input/weight-form"
 
-export async function getUserWeight(user_id: string): Promise<Weight[]> {
+async function getUserWeight(user_id: string): Promise<Weight[]> {
   const supabase = createSupabaseServerClient()
 
   const { data, error } = await supabase
