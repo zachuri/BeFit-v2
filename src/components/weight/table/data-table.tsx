@@ -19,6 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Icons } from "@/components/icons"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -120,6 +121,11 @@ export function DataTable<TData, TValue>({
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
+          {selectedRowsData.length > 0 && (
+            <button>
+              <Icons.trash />
+            </button>
+          )}
         </div>
         <Button
           variant="outline"
@@ -137,15 +143,6 @@ export function DataTable<TData, TValue>({
         >
           Next
         </Button>
-      </div>
-      <div>
-        {selectedRowsData.map((rowData, index) => (
-          <div key={index}>
-            {/* Display the relevant properties of rowData */}
-            <p>{rowData.weight}</p>
-            {/* Add more JSX to display other properties */}
-          </div>
-        ))}
       </div>
     </div>
   )

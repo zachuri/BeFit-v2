@@ -26,7 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { DeleteDialog, TableForm } from "./column-dialog"
+import { DeleteDialog, TableForm } from "./column-actions"
 
 export const columns: ColumnDef<Weight>[] = [
   {
