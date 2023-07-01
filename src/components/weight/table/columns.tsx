@@ -25,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Icons } from "@/components/icons"
 
 import { DeleteDialog, TableForm } from "./column-actions"
 
@@ -53,8 +54,22 @@ export const columns: ColumnDef<Weight>[] = [
     header: "Weight (lbs)",
   },
   {
+    accessorKey: "description",
+    header: "Description",
+  },
+  {
     accessorKey: "created_at",
-    header: "Created At",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Created At
+          <Icons.arrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const time_stamp = row.getValue("created_at")
 
@@ -79,10 +94,6 @@ export const columns: ColumnDef<Weight>[] = [
 
       return <>{formattedTime}</>
     },
-  },
-  {
-    accessorKey: "description",
-    header: "Description",
   },
   {
     id: "actions",

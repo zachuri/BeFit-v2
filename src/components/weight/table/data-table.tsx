@@ -3,10 +3,14 @@
 import React from "react"
 import {
   ColumnDef,
+  ColumnFiltersState,
   RowData,
+  SortingState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
 
@@ -21,6 +25,8 @@ import {
 } from "@/components/ui/table"
 import { Icons } from "@/components/icons"
 
+import { DataTablePagination } from "./data-table-pagination"
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -30,6 +36,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([])
   const [rowSelection, setRowSelection] = React.useState({})
   const [selectedRowsData, setSelectedRowsData] = React.useState<RowData[]>([])
 
@@ -41,12 +48,13 @@ export function DataTable<TData, TValue>({
     onRowSelectionChange: (selectedRowIds) => {
       setRowSelection(selectedRowIds), handleSelectedRows()
     },
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
       rowSelection,
+      sorting,
     },
   })
-
-  console.log(selectedRowsData)
 
   // Function to handle storing selected row data
   const handleSelectedRows = () => {
@@ -117,33 +125,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-          {selectedRowsData.length > 0 && (
-            <button>
-              <Icons.trash />
-            </button>
-          )}
-        </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
+      <DataTablePagination table={table} />
     </div>
   )
 }

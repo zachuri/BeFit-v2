@@ -1,6 +1,7 @@
 import {
   AlertTriangle,
   ArrowRight,
+  ArrowUpDown,
   ChevronLeft,
   CreditCard,
   FileText,
@@ -23,6 +24,7 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
+  arrowUpDown: ArrowUpDown,
   trash: Trash,
   ellipsis: MoreVertical,
   add: Plus,
