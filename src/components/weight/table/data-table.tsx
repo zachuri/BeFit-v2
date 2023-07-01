@@ -1,6 +1,8 @@
 "use client"
 
 import React from "react"
+import { useRouter } from "next/navigation"
+import { useSessionContext } from "@supabase/auth-helpers-react"
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -23,12 +25,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
 import { DataTablePagination } from "./data-table-pagination"
-import { useSessionContext } from '@supabase/auth-helpers-react'
-import { useRouter } from 'next/navigation'
-import { toast } from '@/components/ui/use-toast'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -85,6 +85,7 @@ export function DataTable<TData, TValue>({
       supabaseClient
         .from("weight")
         .delete()
+        // @ts-ignore
         .eq("id", rowData.id)
         .single()
     )
