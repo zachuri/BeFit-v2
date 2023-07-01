@@ -26,6 +26,9 @@ import {
 import { Icons } from "@/components/icons"
 
 import { DataTablePagination } from "./data-table-pagination"
+import { useSessionContext } from '@supabase/auth-helpers-react'
+import { useRouter } from 'next/navigation'
+import { toast } from '@/components/ui/use-toast'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -72,6 +75,40 @@ export function DataTable<TData, TValue>({
   React.useEffect(() => {
     handleSelectedRows()
   }, [rowSelection])
+
+  const { supabaseClient } = useSessionContext()
+  const router = useRouter()
+
+  // Function to handle deleting selected rows
+  const handleDeleteSelectedRows = async () => {
+    const deletePromises = selectedRowsData.map((rowData) =>
+      supabaseClient
+        .from("weight")
+        .delete()
+        .eq("id", rowData.id)
+        .single()
+    )
+
+    const results = await Promise.all(deletePromises)
+
+    // Check if any errors occurred during deletion
+    const hasErrors = results.some((result) => result.error)
+    if (hasErrors) {
+      toast({
+        title: "Something went wrong.",
+        description: "No update was made.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    toast({
+      description: "Your changes have been updated.",
+    })
+
+    // Refresh the data or perform any other necessary action
+    router.refresh()
+  }
 
   return (
     <div className="space-y-4">
@@ -125,6 +162,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+      <Button onClick={handleDeleteSelectedRows}>Delete Selected Rows</Button>
       <DataTablePagination table={table} />
     </div>
   )

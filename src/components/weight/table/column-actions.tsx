@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
 import { useSessionContext } from "@supabase/auth-helpers-react"
+import { RowData } from "@tanstack/react-table"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
