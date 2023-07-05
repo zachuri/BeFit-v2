@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation"
 import { createSupabaseServerClient } from "@/utils/supabase-server"
 
-import { controlPanelConfig } from "@/config/control-panel"
+import { dashboardConfig } from "@/config/dashboard"
 import { getServerSession } from "@/lib/session"
 import { Navbar } from "@/components/navbar"
 import { SiteFooter } from "@/components/site-footer"
@@ -27,7 +27,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex min-h-screen flex-col space-y-6">
-      <Navbar mainNav={controlPanelConfig.mainNav}>
+      <Navbar mainNav={dashboardConfig.mainNav}>
         <ThemeToggle />
         <UserAccountNav
           user={{
