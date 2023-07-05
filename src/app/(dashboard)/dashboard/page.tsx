@@ -1,6 +1,8 @@
 import React from "react"
 import Link from "next/link"
 
+import { formatCreatedAt } from "@/lib/format-date"
+import { getServerSession } from "@/lib/session"
 import {
   Card,
   CardContent,
@@ -11,7 +13,15 @@ import {
 import { Overview } from "@/components/overview"
 import { RecentActivity } from "@/components/recent-activity"
 
-export default function Page() {
+import { getUserWeight } from "./actions"
+
+export default async function Page() {
+  const session = await getServerSession()
+  const weights = await getUserWeight(session.user.id)
+
+  const { date: today } = formatCreatedAt(new Date())
+  const { date: mostRecentDate } = formatCreatedAt(weights[0].created_at)
+
   return (
     <>
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -26,7 +36,13 @@ export default function Page() {
                 <CardTitle className="text-sm font-medium">Weight</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">180 lbs</div>
+                <div className="text-2xl font-bold">
+                  {today !== mostRecentDate ? (
+                    <p className="text-red-500 dark:text-red-300">Add weight</p>
+                  ) : (
+                    <>{weights[0].weight} lbs</>
+                  )}
+                </div>
                 <p className="text-xs text-muted-foreground">
                   -20.1% from last month
                 </p>

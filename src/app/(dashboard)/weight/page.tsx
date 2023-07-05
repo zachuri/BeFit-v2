@@ -6,22 +6,7 @@ import { getServerSession } from "@/lib/session"
 import { WeightForm } from "@/components/weight/input/weight-form"
 import { columns } from "@/components/weight/table/columns"
 import { DataTable } from "@/components/weight/table/data-table"
-
-async function getUserWeight(user_id: string): Promise<Weight[]> {
-  const supabase = createSupabaseServerClient()
-
-  const { data, error } = await supabase
-    .from("weight")
-    .select("*")
-    .eq("user_id", user_id)
-    .order("created_at", { ascending: false })
-
-  if (error) {
-    console.log(error)
-  }
-
-  return data as Weight[]
-}
+import { getUserWeight } from '../dashboard/actions'
 
 export default async function Page() {
   const session = await getServerSession()
