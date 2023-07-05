@@ -60,7 +60,7 @@ export default function Page() {
         </div>
 
         {/* Overview/ Recent Activities */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+        <div className="grid gap-4 max-sm:hidden sm:block md:grid-cols-2 lg:grid-cols-7">
           <Card className="col-span-4">
             <CardHeader>
               <CardTitle>Overview</CardTitle>
