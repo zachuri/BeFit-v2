@@ -2,6 +2,8 @@
 
 import React from "react"
 
+import { Weight } from "@/types/weight"
+import { formatCreatedAt } from "@/lib/format-date"
 import {
   Card,
   CardContent,
@@ -14,9 +16,13 @@ import { WeightDialog } from "./weight-dialog"
 
 interface Props {
   user_id: string
+  weight: Weight
 }
 
-export const WeightForm = ({ user_id }: Props) => {
+export const WeightForm = ({ user_id, weight }: Props) => {
+  const { date: today } = formatCreatedAt(new Date())
+  const { date: mostRecentDate } = formatCreatedAt(weight.created_at)
+
   return (
     <>
       <Card>
@@ -26,7 +32,13 @@ export const WeightForm = ({ user_id }: Props) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">180 lbs</div>
+          <div className="text-2xl font-bold">
+            {today !== mostRecentDate ? (
+              <>Add Weight</>
+            ) : (
+              <>{weight.weight} lbs</>
+            )}
+          </div>
           <p className="text-xs text-muted-foreground">
             -20.1% from last month
           </p>

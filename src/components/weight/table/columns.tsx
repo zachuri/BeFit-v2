@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 
 import { Weight } from "@/types/weight"
+import { formatCreatedAt } from "@/lib/format-date"
 import { Button, buttonVariants } from "@/components/ui/button"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -73,26 +74,13 @@ export const columns: ColumnDef<Weight>[] = [
     cell: ({ row }) => {
       const time_stamp = row.getValue("created_at")
 
-      let timestampDate
-      if (typeof time_stamp === "string" || typeof time_stamp === "number") {
-        timestampDate = new Date(time_stamp)
-      } else if (time_stamp instanceof Date) {
-        timestampDate = time_stamp
-      } else {
-        console.error("Invalid timestamp value")
-        return
-      }
+      const { time, date } = formatCreatedAt(time_stamp)
 
-      const options = {
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      }
-
-      const formattedTime = new Date(time_stamp).toLocaleString(
-        undefined,
-        options
+      return (
+        <>
+          {date}, {time}
+        </>
       )
-
-      return <>{formattedTime}</>
     },
   },
   {
