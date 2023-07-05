@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useSessionContext } from "@supabase/auth-helpers-react"
@@ -9,6 +10,7 @@ import * as z from "zod"
 
 import { cn } from "@/lib/utils"
 import { weightSchema } from "@/lib/validations/weight"
+import { useUser } from "@/hooks/useUser"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Dialog,
@@ -40,6 +42,7 @@ interface TableFormProps {
 export function TableForm({ user_id, setOpen }: TableFormProps) {
   const { supabaseClient } = useSessionContext()
   const router = useRouter()
+  const user = useUser()
 
   const form = useForm<FormData>({
     resolver: zodResolver(weightSchema),
@@ -122,24 +125,39 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="weight_url"
-          render={({ field }) => (
+        {user.subscription?.status === "active" ? (
+          <FormField
+            control={form.control}
+            name="weight_url"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Image</FormLabel>
+                <FormControl>
+                  <Input placeholder="for premium users" {...field} />
+                </FormControl>
+                <FormDescription>Enter the weight URL here.</FormDescription>
+                {form.formState.errors.weight && (
+                  <FormMessage>
+                    {form.formState.errors.weight_url?.message}
+                  </FormMessage>
+                )}
+              </FormItem>
+            )}
+          />
+        ) : (
+          <>
             <FormItem>
               <FormLabel>Image</FormLabel>
-              <FormControl>
-                <Input placeholder="for premium users" {...field} />
-              </FormControl>
-              <FormDescription>Enter the weight URL here.</FormDescription>
-              {form.formState.errors.weight && (
-                <FormMessage>
-                  {form.formState.errors.weight_url?.message}
-                </FormMessage>
-              )}
+              <FormDescription>
+                Upgrade to{" "}
+                <span className="font-medium text-primary underline underline-offset-4">
+                  <Link href="/billing">Premium</Link>
+                </span>{" "}
+                to upload progress images.
+              </FormDescription>
             </FormItem>
-          )}
-        />
+          </>
+        )}
 
         <Button type="submit">Submit</Button>
       </form>
