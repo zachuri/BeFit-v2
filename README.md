@@ -309,6 +309,10 @@ Before you begin, ensure that you have the following installed on your system:
    2. Create a product
       1. Add a product in Stripe:
          - This will trigger a webhook request to your API endpoint (**`/api/webhooks`**) and insert the product into your Supabase database.
+6. Enable Customer Portal link
+    1. Settings → billing → customer portal link
+        1. Enable customer portal test link
+    2. This allows the user to view their subscriptions they bought
 
 Make sure to follow these steps carefully to set up Supabase and Stripe correctly for your Next.js 13 + Supabase + Stripe boilerplate.
 If you have any questions or would like me to make a video on how to setup. Star and hit me up!
