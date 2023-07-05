@@ -107,6 +107,8 @@ export function DataTable<TData, TValue>({
       description: "Your changes have been updated.",
     })
 
+    setRowSelection({})
+
     // Refresh the data or perform any other necessary action
     router.refresh()
   }
