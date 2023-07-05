@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Table } from "@tanstack/react-table"
 import {
   ChevronLeft,
@@ -6,6 +7,17 @@ import {
   ChevronsRight,
 } from "lucide-react"
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -14,19 +26,48 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Icons } from "@/components/icons"
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
+  handleDeleteSelectedRows: () => void
 }
 
 export function DataTablePagination<TData>({
   table,
+  handleDeleteSelectedRows,
 }: DataTablePaginationProps<TData>) {
+  const [open, setOpen] = useState(false)
+
   return (
-    <div className="flex items-center justify-between px-2">
+    <div className="flex flex-col items-center justify-between space-y-4 px-2 md:flex-row">
       <div className="flex-1 text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
+        {table.getFilteredSelectedRowModel().rows.length > 0 && (
+          <AlertDialog open={open} onOpenChange={setOpen}>
+            <AlertDialogTrigger asChild>
+              <Button className="ml-2" variant={"destructive"}>
+                <Icons.trash className="h-4 w-4" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your current weight.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteSelectedRows}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">

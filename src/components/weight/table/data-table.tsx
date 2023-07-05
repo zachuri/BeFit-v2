@@ -163,8 +163,10 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <Button onClick={handleDeleteSelectedRows}>Delete Selected Rows</Button>
-      <DataTablePagination table={table} />
+      <DataTablePagination
+        table={table}
+        handleDeleteSelectedRows={handleDeleteSelectedRows}
+      />
     </div>
   )
 }
