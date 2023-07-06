@@ -23,6 +23,8 @@ export const WeightForm = ({ user_id, weight }: Props) => {
   const { date: today } = formatCreatedAt(new Date())
   const { date: mostRecentDate } = formatCreatedAt(weight.created_at)
 
+  const isToday = today === mostRecentDate
+
   return (
     <>
       <Card>
@@ -33,18 +35,14 @@ export const WeightForm = ({ user_id, weight }: Props) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {today !== mostRecentDate ? (
-              <>Add Weight</>
-            ) : (
-              <>{weight.weight} lbs</>
-            )}
+            {isToday ? <>{weight.weight} lbs</> : <>Add Weight</>}
           </div>
           <p className="text-xs text-muted-foreground">
             -20.1% from last month
           </p>
         </CardContent>
         <CardFooter>
-          <WeightDialog user_id={user_id} />
+          {isToday ? <></> : <WeightDialog user_id={user_id} />}
         </CardFooter>
       </Card>
     </>
