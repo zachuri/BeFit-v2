@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 
@@ -29,7 +28,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Icons } from "@/components/icons"
 
-import { DeleteDialog, TableForm } from "./column-actions"
+import { WeightDeleteDialog } from "@/components/weight/table/column-actions/weight-delete-dialog"
+import { WeightUpdateForm } from "@/components/weight/table/column-actions/weight-update-form"
 
 export const columns: ColumnDef<Weight>[] = [
   {
@@ -107,6 +107,8 @@ export const columns: ColumnDef<Weight>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+            {/* Copy action */}
             <DropdownMenuItem
               onClick={() =>
                 navigator.clipboard.writeText(
@@ -118,7 +120,7 @@ export const columns: ColumnDef<Weight>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
 
-            {/* Menu Item passed in dialog */}
+            {/* Update Action: Menu Item passed in dialog */}
             <Dialog open={open} onOpenChange={setOpen}>
               <DropdownMenuItem
                 onSelect={(event) => {
@@ -138,15 +140,15 @@ export const columns: ColumnDef<Weight>[] = [
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid items-center gap-4">
-                    <TableForm weight={weight} setOpen={setOpen} />
+                    <WeightUpdateForm weight={weight} setOpen={setOpen} />
                   </div>
                 </div>
               </DialogContent>
             </Dialog>
 
-            {/* Alert Dialog for Delete */}
+            {/* Delete action: Alert Dialog for Delete */}
             <DropdownMenuItem>
-              <DeleteDialog
+              <WeightDeleteDialog
                 id={weight.id}
                 weight_url={weight.weight_url || ""}
               />

@@ -40,6 +40,9 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const { supabaseClient } = useSessionContext()
+  const router = useRouter()
+
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [rowSelection, setRowSelection] = React.useState({})
   const [selectedRowsData, setSelectedRowsData] = React.useState<RowData[]>([])
@@ -76,9 +79,6 @@ export function DataTable<TData, TValue>({
   React.useEffect(() => {
     handleSelectedRows()
   }, [rowSelection])
-
-  const { supabaseClient } = useSessionContext()
-  const router = useRouter()
 
   // Function to handle deleting selected rows
   const handleDeleteSelectedRows = async () => {

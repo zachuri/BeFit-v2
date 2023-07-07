@@ -1,13 +1,11 @@
 "use client"
 
-import React, { forwardRef, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
 import { useSessionContext } from "@supabase/auth-helpers-react"
-import { RowData } from "@tanstack/react-table"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
@@ -15,26 +13,7 @@ import { Weight } from "@/types/weight"
 import { getBucketPath } from "@/lib/bucket-path"
 import { weightSchema } from "@/lib/validations/weight"
 import { useUser } from "@/hooks/useUser"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -49,95 +28,12 @@ import { toast } from "@/components/ui/use-toast"
 
 type FormData = z.infer<typeof weightSchema>
 
-export function DeleteDialog({
-  id,
-  weight_url,
-}: {
-  id: string
-  weight_url: string
-}) {
-  const { supabaseClient } = useSessionContext()
-  const router = useRouter()
-
-  const [open, setOpen] = useState(false)
-
-  // Stops the dialog from clsoing
-  const handleClick = (event: { preventDefault: () => void }) => {
-    event.preventDefault() // Prevents the default behavior of the button click
-    setOpen(true) // Opens the delete dialog
-  }
-
-  async function handleDelete() {
-    // delete image first
-    if (weight_url.length !== 0) {
-      const { userId, fileName } = getBucketPath(weight_url, "progress")
-
-      const { data: deleteImage, error: errorDeleteImage } =
-        await supabaseClient.storage
-          .from("progress")
-          .remove([`${userId}/${fileName}`])
-
-      if (errorDeleteImage) {
-        return toast({
-          title: "Something went wrong.",
-          description: "No able to delete image",
-          variant: "destructive",
-        })
-      }
-    }
-
-    const { data: response, error } = await supabaseClient
-      .from("weight")
-      .delete()
-      .eq("id", id)
-
-    if (error) {
-      return toast({
-        title: "Something went wrong.",
-        description: "No update was made.",
-        variant: "destructive",
-      })
-    }
-
-    toast({
-      description: "Your changes have been updated.",
-    })
-
-    setOpen(false)
-
-    router.refresh()
-  }
-
-  return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger asChild>
-        <button className="text-red-500" onClick={handleClick}>
-          Delete
-        </button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            current weight.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  )
-}
-
-interface TableFormProps {
+interface WeightUpdateFormProps {
   weight: Weight
   setOpen: (open: boolean) => void
 }
 
-export function TableForm({ weight, setOpen }: TableFormProps) {
+export function WeightUpdateForm({ weight, setOpen }: WeightUpdateFormProps) {
   const { supabaseClient } = useSessionContext()
   const router = useRouter()
 
@@ -158,66 +54,72 @@ export function TableForm({ weight, setOpen }: TableFormProps) {
   async function onSubmit(data: FormData) {
     let updated_url
 
-    if (data.weight_url && weight.weight_url) {
-      // Old weight_url path
-      const { userId, fileName } = getBucketPath(weight.weight_url, "progress")
+    try {
+      if (data.weight_url && weight.weight_url) {
+        // Old weight_url path
+        const { userId, fileName } = getBucketPath(
+          weight.weight_url,
+          "progress"
+        )
 
-      // New weight_url path
-      const file = data.weight_url[0]
-      const filePath = `${data.user_id}/${file.name}`
+        // New weight_url path
+        const file = data.weight_url[0]
+        const filePath = `${data.user_id}/${file.name}`
 
-      const { data: updatePhoto, error: uploadError } =
-        await supabaseClient.storage
+        const { error: updatePhotoError } = await supabaseClient.storage
           .from("progress")
           .update(`${userId}/${fileName}`, file, {
             cacheControl: "3600",
             upsert: true,
           })
 
-      if (uploadError) {
-        throw uploadError
+        if (updatePhotoError) {
+          throw updatePhotoError
+        }
+
+        // Get the public URL of the uploaded file
+        const { data: progress_url } = await supabaseClient.storage
+          .from("progress")
+          .getPublicUrl(filePath)
+
+        // Set the weight_url value to the public URL
+        updated_url = progress_url.publicUrl
       }
 
-      // Get the public URL of the uploaded file
-      const { data: progress_url } = await supabaseClient.storage
-        .from("progress")
-        .getPublicUrl(filePath)
+      const { error: updateRowError } = await supabaseClient
+        .from("weight")
+        .update([
+          {
+            weight: parseFloat(data.weight),
+            description: data.description,
+            weight_url: weight.weight_url,
+            user_id: weight.user_id,
+          },
+        ])
+        .eq("id", weight.id)
+        .select()
 
-      // Set the weight_url value to the public URL
-      updated_url = progress_url.publicUrl
-    }
+      if (updateRowError) {
+        throw updateRowError
+      }
 
-    const { data: response, error } = await supabaseClient
-      .from("weight")
-      .update([
-        {
-          weight: parseFloat(data.weight),
-          description: data.description,
-          weight_url: weight.weight_url,
-          user_id: weight.user_id,
-        },
-      ])
-      .eq("id", weight.id)
-      .select()
+      toast({
+        description: "Your changes have been updated.",
+      })
 
-    if (error) {
+      setOpen(false)
+
+      router.refresh()
+    } catch (error) {
       return toast({
         title: "Something went wrong.",
-        description: "No update was made.",
+        description: `No update was made`,
         variant: "destructive",
       })
     }
-
-    toast({
-      description: "Your changes have been updated.",
-    })
-
-    setOpen(false)
-
-    router.refresh()
   }
 
-  async function getImagePrivate() {
+  async function getProtectedImage() {
     const { userId, fileName } = getBucketPath(
       weight.weight_url || "",
       "progress"
@@ -240,7 +142,7 @@ export function TableForm({ weight, setOpen }: TableFormProps) {
   }
 
   useEffect(() => {
-    getImagePrivate()
+    getProtectedImage()
   }, [weight.weight_url])
 
   return (
