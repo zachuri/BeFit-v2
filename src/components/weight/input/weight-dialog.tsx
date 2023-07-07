@@ -55,7 +55,7 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
   })
 
   async function onSubmit(data: FormData) {
-    let public_url
+    let url
 
     try {
       setUploading(true)
@@ -63,7 +63,6 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
       // Check if weight_url is present
       if (data.weight_url) {
         // Upload the file to the "progress" bucket
-        console.log(data.weight_url.name)
         const file = data.weight_url[0]
         const filePath = `${user_id}/${file.name}`
 
@@ -75,12 +74,12 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
         }
 
         // Get the public URL of the uploaded file
-        const { data: publicURL } = await supabaseClient.storage
+        const { data: progress_url } = await supabaseClient.storage
           .from("progress")
           .getPublicUrl(filePath)
 
         // Set the weight_url value to the public URL
-        public_url = publicURL
+        url = progress_url.publicUrl
       }
 
       // Insert the form data into the "weight" table
@@ -90,7 +89,7 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
           {
             weight: parseFloat(data.weight),
             description: data.description,
-            weight_url: public_url,
+            weight_url: url,
             user_id: user_id,
           },
         ])
@@ -123,11 +122,6 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
     }
   }
 
-  const handleFilesUpload = async (event: { target: { files: any[] } }) => {
-    const file = event.target.files[0]
-    form.setValue("weight_url", file) // Set the file object as the field value
-  }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -157,7 +151,7 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input type="file" accept="image/*" {...field} />
+                <Input placeholder="looking good today" {...field} />
               </FormControl>
               <FormDescription>Enter the description here.</FormDescription>
               {form.formState.errors.weight && (
