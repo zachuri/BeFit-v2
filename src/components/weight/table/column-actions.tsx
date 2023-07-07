@@ -1,6 +1,6 @@
 "use client"
 
-import React, { forwardRef, useState } from "react"
+import React, { forwardRef, useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -186,6 +186,32 @@ export function TableForm({ weight, setOpen }: TableFormProps) {
     router.refresh()
   }
 
+  async function getImagePrivate() {
+    const { userId, fileName } = getBucketPath(
+      weight.weight_url || "",
+      "progress"
+    )
+
+    try {
+      const { data, error } = await supabaseClient.storage
+        .from("progress")
+        .createSignedUrl(`${userId}/${fileName}`, 60)
+
+      if (error) {
+        throw new Error("Error retrieving signed URL")
+      }
+
+      setImageUrl(data?.signedUrl || "")
+    } catch (error) {
+      console.error("Error retrieving private image URL:", error)
+      setImageUrl("") // Set imageUrl to empty in case of an error
+    }
+  }
+
+  useEffect(() => {
+    getImagePrivate()
+  }, [weight.weight_url])
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -237,13 +263,14 @@ export function TableForm({ weight, setOpen }: TableFormProps) {
                 <Input placeholder="for premium users" {...field} />
               </FormControl>
               <FormDescription>
-                {field.value}
-                <Image
-                  src={field.value}
-                  alt={field.value}
-                  height={10}
-                  width={10}
-                />
+                {imageUrl && (
+                  <Image
+                    src={imageUrl}
+                    alt={"progress image"}
+                    height={100}
+                    width={100}
+                  />
+                )}
               </FormDescription>
               {/* <FormDescription>Enter the weight URL here.</FormDescription>
               {form.formState.errors.weight && (
