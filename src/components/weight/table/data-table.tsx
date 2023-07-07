@@ -16,6 +16,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 
+import { getBucketPath } from "@/lib/bucket-path"
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -83,16 +84,19 @@ export function DataTable<TData, TValue>({
   const handleDeleteSelectedRows = async () => {
     // Delete the images
     const deleteImages = selectedRowsData.map((rowData) => {
+      // Only delete if there is a url
       // @ts-ignore
-      const url = rowData.weight_url
+      if (rowData.weight_url.length !== 0) {
+        const { userId, fileName } = getBucketPath(
+          // @ts-ignore
+          rowData.weight_url,
+          "progress"
+        )
 
-      const progressIndex = url.indexOf("progress")
-      const extractedPath = url.substring(progressIndex + "progress".length)
-      const sanitizedPath = extractedPath.replace(/^\//, "") // Remove the leading forward slash
-
-      console.log(extractedPath)
-
-      supabaseClient.storage.from("progress").remove([sanitizedPath])
+        supabaseClient.storage
+          .from("progress")
+          .remove([`${userId}/${fileName}`])
+      }
     })
 
     // Delete the rows

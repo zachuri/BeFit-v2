@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 
@@ -57,10 +58,6 @@ export const columns: ColumnDef<Weight>[] = [
   {
     accessorKey: "description",
     header: "Description",
-  },
-  {
-    accessorKey: "weight_url",
-    header: "image",
   },
   {
     accessorKey: "created_at",
@@ -149,7 +146,10 @@ export const columns: ColumnDef<Weight>[] = [
 
             {/* Alert Dialog for Delete */}
             <DropdownMenuItem>
-              <DeleteDialog id={weight.id} />
+              <DeleteDialog
+                id={weight.id}
+                weight_url={weight.weight_url || ""}
+              />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

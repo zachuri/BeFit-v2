@@ -1,6 +1,8 @@
 "use client"
 
 import React, { forwardRef, useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
@@ -10,7 +12,9 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { Weight } from "@/types/weight"
+import { getBucketPath } from "@/lib/bucket-path"
 import { weightSchema } from "@/lib/validations/weight"
+import { useUser } from "@/hooks/useUser"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,7 +49,13 @@ import { toast } from "@/components/ui/use-toast"
 
 type FormData = z.infer<typeof weightSchema>
 
-export function DeleteDialog({ id }: { id: string }) {
+export function DeleteDialog({
+  id,
+  weight_url,
+}: {
+  id: string
+  weight_url: string
+}) {
   const { supabaseClient } = useSessionContext()
   const router = useRouter()
 
@@ -58,6 +68,24 @@ export function DeleteDialog({ id }: { id: string }) {
   }
 
   async function handleDelete() {
+    // delete image first
+    if (weight_url.length !== 0) {
+      const { userId, fileName } = getBucketPath(weight_url, "progress")
+
+      const { data: deleteImage, error: errorDeleteImage } =
+        await supabaseClient.storage
+          .from("progress")
+          .remove([`${userId}/${fileName}`])
+
+      if (errorDeleteImage) {
+        return toast({
+          title: "Something went wrong.",
+          description: "No able to delete image",
+          variant: "destructive",
+        })
+      }
+    }
+
     const { data: response, error } = await supabaseClient
       .from("weight")
       .delete()
@@ -112,6 +140,10 @@ interface TableFormProps {
 export function TableForm({ weight, setOpen }: TableFormProps) {
   const { supabaseClient } = useSessionContext()
   const router = useRouter()
+
+  const [imageUrl, setImageUrl] = useState("")
+
+  const user = useUser()
 
   const form = useForm<FormData>({
     resolver: zodResolver(weightSchema),
@@ -204,15 +236,66 @@ export function TableForm({ weight, setOpen }: TableFormProps) {
               <FormControl>
                 <Input placeholder="for premium users" {...field} />
               </FormControl>
-              <FormDescription>Enter the weight URL here.</FormDescription>
+              <FormDescription>
+                {field.value}
+                <Image
+                  src={field.value}
+                  alt={field.value}
+                  height={10}
+                  width={10}
+                />
+              </FormDescription>
+              {/* <FormDescription>Enter the weight URL here.</FormDescription>
               {form.formState.errors.weight && (
                 <FormMessage>
                   {form.formState.errors.weight_url?.message}
                 </FormMessage>
-              )}
+              )} */}
             </FormItem>
           )}
         />
+
+        {user.subscription?.status === "active" ? (
+          <FormField
+            control={form.control}
+            name="weight_url"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Upload new Image?</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    // Instead of using spread use on change
+                    onChange={(event) => {
+                      const file = event.target.files
+                      if (file && file.length > 0) {
+                        form.setValue("weight_url", file)
+                      }
+                    }}
+                    // {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Replace current image with a new image?
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+        ) : (
+          <>
+            <FormItem>
+              <FormLabel>Image</FormLabel>
+              <FormDescription>
+                Upgrade to{" "}
+                <span className="font-medium text-primary underline underline-offset-4">
+                  <Link href="/billing">Premium</Link>
+                </span>{" "}
+                to upload progress images.
+              </FormDescription>
+            </FormItem>
+          </>
+        )}
 
         <Button type="submit">Submit</Button>
       </form>
