@@ -81,13 +81,30 @@ export function DataTable<TData, TValue>({
 
   // Function to handle deleting selected rows
   const handleDeleteSelectedRows = async () => {
-    const deletePromises = selectedRowsData.map((rowData) =>
-      supabaseClient
-        .from("weight")
-        .delete()
-        // @ts-ignore
-        .eq("id", rowData.id)
-        .single()
+    // Delete the images
+    const deleteImages = selectedRowsData.map((rowData) => {
+      // @ts-ignore
+      const url = rowData.weight_url
+
+      const progressIndex = url.indexOf("progress")
+      const extractedPath = url.substring(progressIndex + "progress".length)
+      const sanitizedPath = extractedPath.replace(/^\//, "") // Remove the leading forward slash
+
+      console.log(extractedPath)
+
+      supabaseClient.storage.from("progress").remove([sanitizedPath])
+    })
+
+    // Delete the rows
+    const deletePromises = selectedRowsData.map(
+      (rowData) =>
+        supabaseClient
+          .from("weight")
+          .delete()
+          // @ts-ignore
+          .eq("id", rowData.id)
+          .single(),
+      ...deleteImages
     )
 
     const results = await Promise.all(deletePromises)

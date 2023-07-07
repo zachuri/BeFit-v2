@@ -59,6 +59,10 @@ export const columns: ColumnDef<Weight>[] = [
     header: "Description",
   },
   {
+    accessorKey: "weight_url",
+    header: "image",
+  },
+  {
     accessorKey: "created_at",
     header: ({ column }) => {
       return (
