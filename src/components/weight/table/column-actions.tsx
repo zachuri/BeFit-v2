@@ -150,19 +150,50 @@ export function TableForm({ weight, setOpen }: TableFormProps) {
     defaultValues: {
       weight: weight.weight?.toString() || "",
       description: weight.description || "",
-      weight_url: weight.weight_url || "",
+      weight_url: null,
       user_id: weight.user_id,
     },
   })
 
   async function onSubmit(data: FormData) {
+    let updated_url
+
+    if (data.weight_url && weight.weight_url) {
+      // Old weight_url path
+      const { userId, fileName } = getBucketPath(weight.weight_url, "progress")
+
+      // New weight_url path
+      const file = data.weight_url[0]
+      const filePath = `${data.user_id}/${file.name}`
+
+      const { data: updatePhoto, error: uploadError } =
+        await supabaseClient.storage
+          .from("progress")
+          .update(`${userId}/${fileName}`, file, {
+            cacheControl: "3600",
+            upsert: true,
+          })
+
+      if (uploadError) {
+        throw uploadError
+      }
+
+      // Get the public URL of the uploaded file
+      const { data: progress_url } = await supabaseClient.storage
+        .from("progress")
+        .getPublicUrl(filePath)
+
+      // Set the weight_url value to the public URL
+      updated_url = progress_url.publicUrl
+    }
+
     const { data: response, error } = await supabaseClient
       .from("weight")
       .update([
         {
           weight: parseFloat(data.weight),
           description: data.description,
-          weight_url: data.weight_url,
+          weight_url: weight.weight_url,
           user_id: weight.user_id,
         },
       ])
@@ -260,7 +291,7 @@ export function TableForm({ weight, setOpen }: TableFormProps) {
             <FormItem>
               <FormLabel>Image</FormLabel>
               <FormControl>
-                <Input placeholder="for premium users" {...field} />
+                {/* <Input placeholder="for premium users" {...field} /> */}
               </FormControl>
               <FormDescription>
                 {imageUrl && (
@@ -272,12 +303,6 @@ export function TableForm({ weight, setOpen }: TableFormProps) {
                   />
                 )}
               </FormDescription>
-              {/* <FormDescription>Enter the weight URL here.</FormDescription>
-              {form.formState.errors.weight && (
-                <FormMessage>
-                  {form.formState.errors.weight_url?.message}
-                </FormMessage>
-              )} */}
             </FormItem>
           )}
         />

@@ -55,7 +55,7 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
   })
 
   async function onSubmit(data: FormData) {
-    let url
+    let updated_url
 
     try {
       setUploading(true)
@@ -79,7 +79,7 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
           .getPublicUrl(filePath)
 
         // Set the weight_url value to the public URL
-        url = progress_url.publicUrl
+        updated_url = progress_url.publicUrl
       }
 
       // Insert the form data into the "weight" table
@@ -89,7 +89,7 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
           {
             weight: parseFloat(data.weight),
             description: data.description,
-            weight_url: url,
+            weight_url: updated_url,
             user_id: user_id,
           },
         ])
