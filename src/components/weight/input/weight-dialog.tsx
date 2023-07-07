@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -44,44 +42,90 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
   const router = useRouter()
   const user = useUser()
 
+  const [uploading, setUploading] = useState(false)
+
   const form = useForm<FormData>({
     resolver: zodResolver(weightSchema),
     defaultValues: {
       weight: "0",
       description: "",
-      weight_url: "",
+      weight_url: null, // Initialize weight_url as null
       user_id: user_id,
     },
   })
 
   async function onSubmit(data: FormData) {
-    const { data: response, error } = await supabaseClient
-      .from("weight")
-      .insert([
-        {
-          weight: parseFloat(data.weight),
-          description: data.description,
-          weight_url: data.weight_url,
-          user_id: user_id,
-        },
-      ])
-      .select()
+    let public_url
 
-    if (error) {
-      return toast({
-        title: "Something went wrong.",
-        description: "No update was made.",
+    try {
+      setUploading(true)
+
+      // Check if weight_url is present
+      if (data.weight_url) {
+        // Upload the file to the "progress" bucket
+        console.log(data.weight_url.name)
+        const file = data.weight_url[0]
+        const filePath = `${user_id}/${file.name}`
+
+        const { data: uploadData, error: uploadError } =
+          await supabaseClient.storage.from("progress").upload(filePath, file)
+
+        if (uploadError) {
+          throw uploadError
+        }
+
+        // Get the public URL of the uploaded file
+        const { data: publicURL } = await supabaseClient.storage
+          .from("progress")
+          .getPublicUrl(filePath)
+
+        // Set the weight_url value to the public URL
+        public_url = publicURL
+      }
+
+      // Insert the form data into the "weight" table
+      const { data: response, error } = await supabaseClient
+        .from("weight")
+        .insert([
+          {
+            weight: parseFloat(data.weight),
+            description: data.description,
+            weight_url: public_url,
+            user_id: user_id,
+          },
+        ])
+        .select()
+
+      if (error) {
+        return toast({
+          title: "Something went wrong.",
+          description: "No update was made.",
+          variant: "destructive",
+        })
+      }
+
+      toast({
+        description: "Your changes have been updated.",
+      })
+
+      setOpen(false)
+
+      router.refresh()
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: "Error",
+        description: "Failed to upload the image.",
         variant: "destructive",
       })
+    } finally {
+      setUploading(false)
     }
+  }
 
-    toast({
-      description: "Your changes have been updated.",
-    })
-
-    setOpen(false)
-
-    router.refresh()
+  const handleFilesUpload = async (event: { target: { files: any[] } }) => {
+    const file = event.target.files[0]
+    form.setValue("weight_url", file) // Set the file object as the field value
   }
 
   return (
@@ -113,7 +157,7 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input placeholder="looking good today" {...field} />
+                <Input type="file" accept="image/*" {...field} />
               </FormControl>
               <FormDescription>Enter the description here.</FormDescription>
               {form.formState.errors.weight && (
@@ -133,14 +177,20 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
               <FormItem>
                 <FormLabel>Image</FormLabel>
                 <FormControl>
-                  <Input placeholder="for premium users" {...field} />
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    // Instead of using spread use on change
+                    onChange={(event) => {
+                      const file = event.target.files
+                      if (file && file.length > 0) {
+                        form.setValue("weight_url", file)
+                      }
+                    }}
+                    // {...field}
+                  />
                 </FormControl>
                 <FormDescription>Enter the weight URL here.</FormDescription>
-                {form.formState.errors.weight && (
-                  <FormMessage>
-                    {form.formState.errors.weight_url?.message}
-                  </FormMessage>
-                )}
               </FormItem>
             )}
           />
@@ -164,7 +214,6 @@ export function TableForm({ user_id, setOpen }: TableFormProps) {
     </Form>
   )
 }
-
 export function WeightDialog({ user_id }: { user_id: string }) {
   const [open, setOpen] = useState(false)
 
