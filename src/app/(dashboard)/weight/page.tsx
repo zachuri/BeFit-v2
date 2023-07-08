@@ -2,6 +2,7 @@ import React from "react"
 
 import { getServerSession } from "@/lib/session"
 import WeightLineGraph from "@/components/weight/graph/line"
+import WeightLineGraph2 from "@/components/weight/graph/line2"
 import { WeightInputCard } from "@/components/weight/input/weight-input-card"
 import { columns } from "@/components/weight/table/columns"
 import { DataTable } from "@/components/weight/table/data-table"
@@ -19,6 +20,7 @@ export default async function Page() {
       <WeightInputCard user_id={session.user.id} weight={weights[0]} />
       <DataTable columns={columns} data={weights} />
       <WeightLineGraph weights={weights} />
+      <WeightLineGraph2 weights={weights} />
     </div>
   )
 }
