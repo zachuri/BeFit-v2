@@ -20,8 +20,9 @@ export default async function Page() {
   const weights = await getUserWeight(session.user.id)
 
   const { date: today } = formatCreatedAt(new Date())
-  const mostRecentDate = weights.length > 0 ? formatCreatedAt(weights[0].created_at).date : null
-
+  const mostRecentDate = weights[0]
+    ? formatCreatedAt(weights[0].created_at).date
+    : null
 
   return (
     <>
