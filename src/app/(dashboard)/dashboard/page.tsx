@@ -1,7 +1,6 @@
 import React from "react"
 import Link from "next/link"
 
-import { formatCreatedAt } from "@/lib/format-date"
 import { getServerSession } from "@/lib/session"
 import {
   Card,
@@ -15,15 +14,9 @@ import { RecentActivity } from "@/components/recent-activity"
 
 import { getUserWeight } from "./actions"
 import WeightCard from "./weight-card"
-
 export default async function Page() {
   const session = await getServerSession()
   const weights = await getUserWeight(session.user.id)
-
-  const { date: today } = formatCreatedAt(new Date())
-  const mostRecentDate = weights[0]
-    ? formatCreatedAt(weights[0].created_at).date
-    : null
 
   return (
     <>
