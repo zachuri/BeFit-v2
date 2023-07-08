@@ -23,11 +23,12 @@ import { formatCreatedAt } from "@/lib/format-date"
 interface Props {
   weights: Weight[]
   height: number
+  enableToolTip: boolean
   margin: {
-    left?: number  
-    right?: number 
-    top?: number 
-    bottom?: number 
+    left?: number
+    right?: number
+    top?: number
+    bottom?: number
   }
 }
 
@@ -47,15 +48,18 @@ const CustomTooltip = ({
   return null
 }
 
-const WeightLineGraph2: React.FC<Props> = ({ weights, height, margin }) => {
+const WeightLineGraph2: React.FC<Props> = ({
+  weights,
+  height,
+  enableToolTip,
+  margin,
+}) => {
   const formattedData = weights
     .map((data) => ({
       created_at: formatCreatedAt(data.created_at).date,
       weight: data.weight,
     }))
     .reverse()
-
-  const lastData = formattedData[formattedData.length - 1] // Get the last data point
 
   return (
     <ResponsiveContainer width="100%" height={height}>
@@ -81,7 +85,7 @@ const WeightLineGraph2: React.FC<Props> = ({ weights, height, margin }) => {
             index === 0 || index === 1 ? value : ""
           } // Show label for top y-axis value
         />
-        <Tooltip content={CustomTooltip} />
+        {enableToolTip ? <Tooltip content={CustomTooltip} /> : <></>}
         <Legend />
         <Line
           type="linear"

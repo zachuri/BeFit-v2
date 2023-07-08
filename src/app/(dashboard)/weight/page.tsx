@@ -20,6 +20,7 @@ export default async function Page() {
       <WeightLineGraph2
         weights={weights}
         height={350}
+        enableToolTip={true}
         margin={{ left: -50, right: 15, top: 25 }}
       />
       <WeightInputCard user_id={session.user.id} weight={weights[0]} />

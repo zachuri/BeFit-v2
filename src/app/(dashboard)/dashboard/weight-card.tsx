@@ -46,6 +46,7 @@ export default function WeightCard({
           <WeightLineGraph2
             weights={weights}
             height={100}
+            enableToolTip={false}
             margin={{ left: -50, right: 15 }}
           />
         </div>
