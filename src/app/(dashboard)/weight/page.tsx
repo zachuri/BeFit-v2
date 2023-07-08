@@ -1,8 +1,7 @@
 import React from "react"
-import { createSupabaseServerClient } from "@/utils/supabase-server"
 
-import { Weight } from "@/types/weight"
 import { getServerSession } from "@/lib/session"
+import WeightLineGraph from "@/components/weight/graph/line"
 import { WeightInputCard } from "@/components/weight/input/weight-input-card"
 import { columns } from "@/components/weight/table/columns"
 import { DataTable } from "@/components/weight/table/data-table"
@@ -19,6 +18,7 @@ export default async function Page() {
       <h2 className="text-3xl font-bold tracking-tight">Weight</h2>
       <WeightInputCard user_id={session.user.id} weight={weights[0]} />
       <DataTable columns={columns} data={weights} />
+      <WeightLineGraph weights={weights} />
     </div>
   )
 }
