@@ -14,6 +14,7 @@ import { Overview } from "@/components/overview"
 import { RecentActivity } from "@/components/recent-activity"
 
 import { getUserWeight } from "./actions"
+import WeightCard from "./weight-card"
 
 export default async function Page() {
   const session = await getServerSession()
@@ -33,23 +34,7 @@ export default async function Page() {
         {/* Navigation */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
-            <Link href={"/weight"}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Weight</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {today !== mostRecentDate ? (
-                    <p className="text-red-500 dark:text-red-300">Add weight</p>
-                  ) : (
-                    <>{weights[0].weight} lbs</>
-                  )}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  -20.1% from last month
-                </p>
-              </CardContent>
-            </Link>
+            <WeightCard mostRecentWeight={weights[0]} />
           </Card>
           <Card>
             <Link href={"/Diet"}>
