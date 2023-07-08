@@ -27,12 +27,16 @@ const WeightLineGraph2: React.FC<Props> = ({ weights }) => {
     }))
     .reverse()
 
+  const lastData = formattedData[formattedData.length - 1] // Get the last data point
+  const yAxisStart =
+    lastData && lastData.weight ? Math.floor(lastData.weight / 10) * 10 : 0 // Round down to nearest multiple of 10
+
   return (
     <ResponsiveContainer width="100%" height={400}>
       <LineChart data={formattedData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="created_at" />
-        <YAxis />
+        <YAxis domain={[yAxisStart, "dataMax"]} />
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="weight" stroke="#8884d8" />
