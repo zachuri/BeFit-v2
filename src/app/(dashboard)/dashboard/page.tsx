@@ -14,6 +14,7 @@ import { RecentActivity } from "@/components/recent-activity"
 
 import { getUserWeight } from "./actions"
 import WeightCard from "./weight-card"
+
 export default async function Page() {
   const session = await getServerSession()
   const weights = await getUserWeight(session.user.id)
