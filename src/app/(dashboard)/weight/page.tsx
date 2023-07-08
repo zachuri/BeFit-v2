@@ -18,9 +18,9 @@ export default async function Page() {
     <div className="flex-1 space-y-4 p-8 pt-6">
       <h2 className="text-3xl font-bold tracking-tight">Weight</h2>
       <WeightInputCard user_id={session.user.id} weight={weights[0]} />
-      <DataTable columns={columns} data={weights} />
-      <WeightLineGraph weights={weights} />
       <WeightLineGraph2 weights={weights} />
+      <DataTable columns={columns} data={weights} />
+      {/* <WeightLineGraph weights={weights} /> */}
     </div>
   )
 }
