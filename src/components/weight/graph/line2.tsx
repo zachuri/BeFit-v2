@@ -22,6 +22,13 @@ import { formatCreatedAt } from "@/lib/format-date"
 
 interface Props {
   weights: Weight[]
+  height: number
+  margin: {
+    left?: number  
+    right?: number 
+    top?: number 
+    bottom?: number 
+  }
 }
 
 const CustomTooltip = ({
@@ -40,7 +47,7 @@ const CustomTooltip = ({
   return null
 }
 
-const WeightLineGraph2: React.FC<Props> = ({ weights }) => {
+const WeightLineGraph2: React.FC<Props> = ({ weights, height, margin }) => {
   const formattedData = weights
     .map((data) => ({
       created_at: formatCreatedAt(data.created_at).date,
@@ -51,11 +58,8 @@ const WeightLineGraph2: React.FC<Props> = ({ weights }) => {
   const lastData = formattedData[formattedData.length - 1] // Get the last data point
 
   return (
-    <ResponsiveContainer width="100%" height={350}>
-      <LineChart
-        margin={{ left: -50, right: 15, top: 25 }}
-        data={formattedData}
-      >
+    <ResponsiveContainer width="100%" height={height}>
+      <LineChart margin={margin} data={formattedData}>
         <CartesianGrid stroke="none" />
         <XAxis
           dataKey="created_at"

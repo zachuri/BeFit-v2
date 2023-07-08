@@ -28,7 +28,7 @@ export default async function Page() {
         {/* Navigation */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
-            <WeightCard mostRecentWeight={weights[0]} />
+            <WeightCard mostRecentWeight={weights} />
           </Card>
           <Card>
             <Link href={"/Diet"}>

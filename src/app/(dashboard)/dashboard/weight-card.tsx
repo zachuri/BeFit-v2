@@ -4,18 +4,24 @@ import Link from "next/link"
 
 import { Weight } from "@/types/weight"
 import { formatCreatedAt } from "@/lib/format-date"
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import WeightLineGraph2 from "@/components/weight/graph/line2"
 
 export default function WeightCard({
   mostRecentWeight,
 }: {
-  mostRecentWeight: Weight
+  mostRecentWeight: Weight[]
 }) {
   const weights = mostRecentWeight
 
   const { date: today } = formatCreatedAt(new Date())
   const mostRecentDate = weights
-    ? formatCreatedAt(weights.created_at).date
+    ? formatCreatedAt(weights[0].created_at).date
     : null
 
   return (
@@ -24,14 +30,25 @@ export default function WeightCard({
         <CardTitle className="text-sm font-medium">Weight</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">
-          {today !== mostRecentDate ? (
-            <p className="text-red-500 dark:text-red-300">Add weight</p>
-          ) : (
-            <>{weights.weight} lbs</>
-          )}
+        <div className="relative flex flex-row">
+          <div className="mr-1 w-full">
+            <div className="text-2xl font-bold">
+              {today !== mostRecentDate ? (
+                <p className="text-red-500 dark:text-red-300">Add weight</p>
+              ) : (
+                <>{weights[0].weight} lbs</>
+              )}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              -20.1% from last month
+            </p>
+          </div>
+          <WeightLineGraph2
+            weights={weights}
+            height={100}
+            margin={{ left: -50, right: 15 }}
+          />
         </div>
-        <p className="text-xs text-muted-foreground">-20.1% from last month</p>
       </CardContent>
     </Link>
   )
