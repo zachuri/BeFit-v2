@@ -21,7 +21,9 @@ interface Props {
 
 export const WeightInputCard = ({ user_id, weight }: Props) => {
   const { date: today } = formatCreatedAt(new Date())
-  const { date: mostRecentDate } = formatCreatedAt(weight.created_at)
+  const mostRecentDate = weight?.created_at
+    ? formatCreatedAt(weight.created_at).date
+    : null
 
   const isToday = today === mostRecentDate
 
