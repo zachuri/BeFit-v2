@@ -34,9 +34,25 @@ const WeightLineGraph2: React.FC<Props> = ({ weights }) => {
   return (
     <ResponsiveContainer width="100%" height={400}>
       <LineChart data={formattedData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="created_at" />
-        <YAxis domain={[yAxisStart, "dataMax"]} />
+        <CartesianGrid stroke="none" />
+        <XAxis
+          dataKey="created_at"
+          axisLine={false}
+          tick={{ fontSize: 12, fontWeight: "bold", textAnchor: "end" }}
+          interval={Math.ceil(formattedData.length / 5)} // Show only 5 x-axis labels
+          tickFormatter={(value, index) =>
+            index === 0 || index === 1 ? value : ""
+          } // Show label for first and last x-axis values
+        />
+        <YAxis
+          domain={[yAxisStart, "dataMax"]}
+          axisLine={false}
+          tick={{ fontSize: 12, fontWeight: "bold" }}
+          tickCount={2} // Show only 2 y-axis labels (top and bottom)
+          tickFormatter={(value, index) =>
+            index === 0 || index === 1 ? value : ""
+          } // Show label for top y-axis value
+        />
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="weight" stroke="#8884d8" />
