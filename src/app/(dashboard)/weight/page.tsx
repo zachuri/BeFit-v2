@@ -17,13 +17,13 @@ export default async function Page() {
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
-      <div className="flex flex-row items-center justify-between space-y-0">
+      {/* <div className="flex flex-row items-center justify-between space-y-0">
         <h2 className="text-3xl font-bold tracking-tight">Weight</h2>
         <Icons.scale />
-      </div>
+      </div> */}
       <WeightLineGraph2
         weights={weights}
-        height={350}
+        height={400}
         enableToolTip={true}
         margin={{ left: -50, right: 15, top: 25 }}
       />
