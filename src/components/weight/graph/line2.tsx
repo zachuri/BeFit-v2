@@ -8,15 +8,36 @@ import {
   LineChart,
   ResponsiveContainer,
   Tooltip,
+  TooltipProps,
   XAxis,
   YAxis,
 } from "recharts"
+import {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent"
 
 import { Weight } from "@/types/weight"
 import { formatCreatedAt } from "@/lib/format-date"
 
 interface Props {
   weights: Weight[]
+}
+
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+}: TooltipProps<ValueType, NameType>): JSX.Element | null => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip">
+        <p className="label">{`(${label}) - ${payload[0].value} lbs`}</p>
+      </div>
+    )
+  }
+
+  return null
 }
 
 const WeightLineGraph2: React.FC<Props> = ({ weights }) => {
@@ -53,7 +74,7 @@ const WeightLineGraph2: React.FC<Props> = ({ weights }) => {
             index === 0 || index === 1 ? value : ""
           } // Show label for top y-axis value
         />
-        <Tooltip />
+        <Tooltip content={CustomTooltip} />
         <Legend />
         <Line
           type="linear"
