@@ -195,14 +195,16 @@ export function WeightUpdateForm({ weight, setOpen }: WeightUpdateFormProps) {
               <FormControl>
                 {/* <Input placeholder="for premium users" {...field} /> */}
               </FormControl>
-              <FormDescription className="flex items-center justify-center">
-                {imageUrl && (
+              <FormDescription>
+                {imageUrl ? (
                   <Image
                     src={imageUrl}
                     alt={"progress image"}
-                    height={200}
-                    width={200}
+                    height={100}
+                    width={100}
                   />
+                ) : (
+                  <p>No Image</p>
                 )}
               </FormDescription>
             </FormItem>
