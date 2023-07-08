@@ -6,7 +6,7 @@ import { Weight } from "@/types/weight"
 import { formatCreatedAt } from "@/lib/format-date"
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-export default async function WeightCard({
+export default function WeightCard({
   mostRecentWeight,
 }: {
   mostRecentWeight: Weight
