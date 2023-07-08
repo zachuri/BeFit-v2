@@ -52,7 +52,10 @@ const WeightLineGraph2: React.FC<Props> = ({ weights }) => {
 
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <LineChart margin={{ left: -50, right: 15 }} data={formattedData}>
+      <LineChart
+        margin={{ left: -50, right: 15, top: 25 }}
+        data={formattedData}
+      >
         <CartesianGrid stroke="none" />
         <XAxis
           dataKey="created_at"
