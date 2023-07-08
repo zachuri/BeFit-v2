@@ -191,17 +191,17 @@ export function WeightUpdateForm({ weight, setOpen }: WeightUpdateFormProps) {
           name="weight_url"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Image</FormLabel>
+              <FormLabel>Current Image</FormLabel>
               <FormControl>
                 {/* <Input placeholder="for premium users" {...field} /> */}
               </FormControl>
-              <FormDescription>
+              <FormDescription className="flex items-center justify-center">
                 {imageUrl && (
                   <Image
                     src={imageUrl}
                     alt={"progress image"}
-                    height={100}
-                    width={100}
+                    height={200}
+                    width={200}
                   />
                 )}
               </FormDescription>
@@ -215,7 +215,7 @@ export function WeightUpdateForm({ weight, setOpen }: WeightUpdateFormProps) {
             name="weight_url"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Upload new Image?</FormLabel>
+                <FormLabel>Upload New</FormLabel>
                 <FormControl>
                   <Input
                     type="file"
