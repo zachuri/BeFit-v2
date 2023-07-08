@@ -5,7 +5,7 @@ import { ControlPanelShell } from "@/components/shell"
 export default function ProfileLoading() {
   return (
     <ControlPanelShell>
-      <ControlPanelHeader heading="Posts" text="Manage your posts" />
+      <ControlPanelHeader heading="Profile" text="Manage your posts" />
       <div className="grid gap-10">
         <CardSkeleton />
       </div>
