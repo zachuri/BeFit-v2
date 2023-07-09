@@ -22,7 +22,7 @@ import { formatCreatedAt } from "@/lib/format-date"
 
 interface Props {
   weights: Weight[]
-  height: number
+  height: number | string
   enableToolTip: boolean
   margin: {
     left?: number
