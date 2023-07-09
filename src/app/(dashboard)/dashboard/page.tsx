@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Suspense } from "react"
 import Link from "next/link"
 
 import { getServerSession } from "@/lib/session"
@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { CardSkeleton } from "@/components/card-skeleton"
 import { Overview } from "@/components/overview"
 import { RecentActivity } from "@/components/recent-activity"
 
@@ -27,7 +28,9 @@ export default async function Page() {
 
         {/* Navigation */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <WeightCard mostRecentWeight={weights} />
+          <Suspense fallback={<CardSkeleton />}>
+            <WeightCard mostRecentWeight={weights} />
+          </Suspense>
           <Card>
             <Link href={"/Diet"}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
