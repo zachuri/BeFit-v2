@@ -1,6 +1,7 @@
 import React from "react"
 
 import { getServerSession } from "@/lib/session"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Icons } from "@/components/icons"
 import WeightLineGraph from "@/components/weight/graph/line"
 import WeightLineGraph2 from "@/components/weight/graph/line2"
@@ -28,7 +29,16 @@ export default async function Page() {
         margin={{ left: -50, right: 15, top: 25 }}
       />
       <WeightInputCard user_id={session.user.id} weight={weights[0]} />
-      <DataTable columns={columns} data={weights} />
+      <Tabs defaultValue="table">
+        <TabsList>
+          <TabsTrigger value="table">Data Table</TabsTrigger>
+          <TabsTrigger value="photos">Photos</TabsTrigger>
+        </TabsList>
+        <TabsContent value="table">
+          <DataTable columns={columns} data={weights} />
+        </TabsContent>
+        <TabsContent value="photos">Change your password here.</TabsContent>
+      </Tabs>
       {/* <WeightLineGraph weights={weights} /> */}
     </div>
   )
