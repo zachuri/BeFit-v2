@@ -31,6 +31,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 
   const handleSignOut = async () => {
     await supabaseClient.auth.signOut()
+    localStorage.clear() // Clearing for photos that are cached
     router.push("/login", { replace: true })
   }
 

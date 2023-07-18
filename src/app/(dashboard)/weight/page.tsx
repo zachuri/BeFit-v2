@@ -9,6 +9,7 @@ import { Icons } from "@/components/icons"
 import WeightLineGraph from "@/components/weight/graph/line"
 import WeightLineGraph2 from "@/components/weight/graph/line2"
 import { WeightInputCard } from "@/components/weight/input/weight-input-card"
+import PhotoContent from "@/components/weight/photos/photo-content"
 import { columns } from "@/components/weight/table/columns"
 import { DataTable } from "@/components/weight/table/data-table"
 
@@ -42,7 +43,9 @@ export default async function Page() {
           <TabsContent value="table">
             <DataTable columns={columns} data={weights} />
           </TabsContent>
-          <TabsContent value="photos">Change your password here.</TabsContent>
+          <TabsContent value="photos">
+            <PhotoContent weights={weights} />
+          </TabsContent>
         </Tabs>
         {/* <WeightLineGraph weights={weights} /> */}
       </Suspense>

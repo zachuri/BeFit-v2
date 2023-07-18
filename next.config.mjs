@@ -5,6 +5,7 @@ const nextConfig = {
     appDir: true,
   },
   images: {
+    minimumCacheTTL: 60,
     domains: ["chwdaugcjxtyyfiqjibf.supabase.co"],
   },
 }
