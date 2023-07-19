@@ -34,22 +34,31 @@ export default function WeightCard({
           <Icons.scale className={"h-4 w-4"} />
         </CardHeader>
         <CardContent>
-          <div className="relative -mb-6 flex flex-row">
+          <div className="relative flex flex-row">
             <div className="w-full">
-              <div className="text-2xl font-bold">
+              <>
                 {today !== mostRecentDate ? (
-                  <p className="text-red-500 dark:text-red-300">Add weight</p>
+                  <>
+                    <h1 className="text-2xl font-bold text-red-300">- - - lbs</h1>
+                    <div className="overflow-hidden">
+                      <p className="text-xs text-muted-foreground">
+                        Add today&apos;s weight
+                      </p>
+                    </div>
+                  </>
                 ) : (
                   <>
-                    {weights[0].weight} <span className="text-sm">lbs</span>
+                    <h1 className="text-2xl font-bold">
+                      {weights[0].weight} <span className="text-sm">lbs</span>
+                    </h1>
+                    <div className="overflow-hidden">
+                      <p className="text-xs text-muted-foreground">
+                        -5.1% in a month
+                      </p>
+                    </div>
                   </>
                 )}
-              </div>
-              <div className="overflow-hidden">
-                <p className="over text-ellipsis whitespace-nowrap text-xs text-muted-foreground">
-                  -20.1% in a month
-                </p>
-              </div>
+              </>
             </div>
             <WeightLineGraph2
               weights={weights}

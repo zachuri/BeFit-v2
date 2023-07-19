@@ -37,11 +37,23 @@ export const WeightInputCard = ({ user_id, weight }: Props) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {isToday ? <>{weight.weight} lbs</> : <>Add Weight</>}
+            {isToday ? (
+              <>
+                <h1>{weight.weight} lbs</h1>
+                {/* later make this more dynamic */}
+                <p className="text-xs text-muted-foreground">
+                  -20.1% from last month
+                </p>
+              </>
+            ) : (
+              <>
+                <h1 className="text-red-300">- - - lbs</h1>
+                <p className="text-xs text-muted-foreground">
+                  Please add today&apos;s weight
+                </p>
+              </>
+            )}
           </div>
-          <p className="text-xs text-muted-foreground">
-            -20.1% from last month
-          </p>
         </CardContent>
         <CardFooter>
           {isToday ? <></> : <WeightDialog user_id={user_id} />}
