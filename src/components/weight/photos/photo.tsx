@@ -75,8 +75,9 @@ export default function WeightPhoto({ weight }: Props) {
           <Image
             src={imageData}
             alt="weight progress"
-            height={250}
-            width={250}
+            height={0}
+            width={0}
+            className="h-auto w-full"
           />
         </CardContent>
       )}
