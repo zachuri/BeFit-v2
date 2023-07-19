@@ -10,7 +10,6 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 
 interface Props {
@@ -19,7 +18,7 @@ interface Props {
 
 export default function WeightPhoto({ weight }: Props) {
   const { supabaseClient } = useSessionContext()
-  const [imageUrl, setImageUrl] = useState("")
+  const [imageData, setImageData] = useState<string | null>(null)
 
   async function getProtectedImage(weightUrl: string) {
     const { userId, fileName } = getBucketPath(weightUrl || "", "progress")
@@ -29,7 +28,7 @@ export default function WeightPhoto({ weight }: Props) {
       const cachedImageData = localStorage.getItem(cacheKey)
 
       if (cachedImageData) {
-        setImageUrl(cachedImageData)
+        setImageData(cachedImageData)
         return
       }
 
@@ -43,32 +42,24 @@ export default function WeightPhoto({ weight }: Props) {
 
       const response = await fetch(data?.signedUrl)
       const imageData = await response.blob()
-      const imageUrl = URL.createObjectURL(imageData)
+      const reader = new FileReader()
 
-      setImageUrl(imageUrl)
-      localStorage.setItem(cacheKey, imageUrl) // Cache the image data
+      reader.onloadend = () => {
+        const base64data = reader.result as string
+        setImageData(base64data)
+        localStorage.setItem(cacheKey, base64data) // Cache the image data
+      }
+
+      reader.readAsDataURL(imageData)
     } catch (error) {
       console.error("Error retrieving private image:", error)
-      setImageUrl("") // Set imageUrl to empty in case of an error
+      setImageData(null) // Set imageData to null in case of an error
     }
   }
 
   useEffect(() => {
     getProtectedImage(weight.weight_url ?? "")
   }, [weight.weight_url])
-
-  // handle on hard reload
-  useEffect(() => {
-    const handleHardReload = () => {
-      localStorage.clear() // Clear the cache on a hard reload
-    }
-
-    window.addEventListener("beforeunload", handleHardReload)
-
-    return () => {
-      window.removeEventListener("beforeunload", handleHardReload)
-    }
-  }, [])
 
   const { time, date } = formatCreatedAt(weight.created_at)
 
@@ -79,10 +70,10 @@ export default function WeightPhoto({ weight }: Props) {
           {time}, {date}
         </CardDescription>
       </CardHeader>
-      {imageUrl && (
+      {imageData && (
         <CardContent>
           <Image
-            src={imageUrl}
+            src={imageData}
             alt="weight progress"
             height={250}
             width={250}
