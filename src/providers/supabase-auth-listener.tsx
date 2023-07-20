@@ -27,6 +27,7 @@ export default function SupabaseAuthListener({ serverAccessToken }: Props) {
         // reload the page to fetch fresh server data
         // https://beta.nextjs.org/docs/data-fetching/mutating
         router.refresh()
+        localStorage.clear()
       }
 
       if (
@@ -37,6 +38,7 @@ export default function SupabaseAuthListener({ serverAccessToken }: Props) {
       ) {
         // Delete cookies when the user signs out
         router.push("/login", { replace: true }) // Redirect to the login page
+        localStorage.clear()
       }
     })
 
