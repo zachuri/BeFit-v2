@@ -1,10 +1,10 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { CardSkeleton } from "@/components/card-skeleton"
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
 
 export default function WeightLoading() {
   return (
-    <div className="flex-1 space-y-4 pt-6">
+    <div className="container flex-1 space-y-4 pt-6">
       <section className="h-[400px]">
         <Skeleton className="h-full" />
       </section>
