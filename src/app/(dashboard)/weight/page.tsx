@@ -44,7 +44,7 @@ export default async function Page() {
             <DataTable columns={columns} data={weights} />
           </TabsContent>
           <TabsContent value="photos">
-              <PhotoContent weights={weights} />
+            <PhotoContent weights={weights} />
           </TabsContent>
         </Tabs>
         {/* <WeightLineGraph weights={weights} /> */}

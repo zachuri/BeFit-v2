@@ -11,6 +11,7 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface Props {
   weight: Weight
@@ -70,7 +71,7 @@ export default function WeightPhoto({ weight }: Props) {
           {time}, {date}
         </CardDescription>
       </CardHeader>
-      {imageData && (
+      {imageData ? (
         <CardContent>
           <Image
             src={imageData}
@@ -80,6 +81,12 @@ export default function WeightPhoto({ weight }: Props) {
             className="h-auto w-full"
           />
         </CardContent>
+      ) : (
+        <>
+          <CardContent>
+            <Skeleton className="h-auto w-full" />
+          </CardContent>
+        </>
       )}
     </Card>
   )

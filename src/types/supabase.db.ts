@@ -31,6 +31,87 @@ export interface Database {
           }
         ]
       }
+      exercise: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          id: string
+          muscle_target: string | null
+          name: string | null
+          user_id: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          id: string
+          muscle_target?: string | null
+          name?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          muscle_target?: string | null
+          name?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      exercises: {
+        Row: {
+          aliases: string[] | null
+          category: Database["public"]["Enums"]["categorytype"]
+          date_created: string
+          date_updated: string
+          description: string | null
+          equipment: Database["public"]["Enums"]["equipmenttype"] | null
+          force: Database["public"]["Enums"]["forcetype"] | null
+          id: string
+          instructions: string[] | null
+          level: Database["public"]["Enums"]["leveltype"]
+          mechanic: Database["public"]["Enums"]["mechanictype"] | null
+          name: string
+          primary_muscles: Database["public"]["Enums"]["muscle"][] | null
+          secondary_muscles: Database["public"]["Enums"]["muscle"][] | null
+          tips: string[] | null
+        }
+        Insert: {
+          aliases?: string[] | null
+          category: Database["public"]["Enums"]["categorytype"]
+          date_created?: string
+          date_updated?: string
+          description?: string | null
+          equipment?: Database["public"]["Enums"]["equipmenttype"] | null
+          force?: Database["public"]["Enums"]["forcetype"] | null
+          id: string
+          instructions?: string[] | null
+          level: Database["public"]["Enums"]["leveltype"]
+          mechanic?: Database["public"]["Enums"]["mechanictype"] | null
+          name: string
+          primary_muscles?: Database["public"]["Enums"]["muscle"][] | null
+          secondary_muscles?: Database["public"]["Enums"]["muscle"][] | null
+          tips?: string[] | null
+        }
+        Update: {
+          aliases?: string[] | null
+          category?: Database["public"]["Enums"]["categorytype"]
+          date_created?: string
+          date_updated?: string
+          description?: string | null
+          equipment?: Database["public"]["Enums"]["equipmenttype"] | null
+          force?: Database["public"]["Enums"]["forcetype"] | null
+          id?: string
+          instructions?: string[] | null
+          level?: Database["public"]["Enums"]["leveltype"]
+          mechanic?: Database["public"]["Enums"]["mechanictype"] | null
+          name?: string
+          primary_muscles?: Database["public"]["Enums"]["muscle"][] | null
+          secondary_muscles?: Database["public"]["Enums"]["muscle"][] | null
+          tips?: string[] | null
+        }
+        Relationships: []
+      }
       prices: {
         Row: {
           active: boolean | null
@@ -144,6 +225,75 @@ export interface Database {
           }
         ]
       }
+      sets: {
+        Row: {
+          created_at: string | null
+          exercise_id: string | null
+          id: string
+          reps: number | null
+          user_id: string | null
+          weight: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          exercise_id?: string | null
+          id: string
+          reps?: number | null
+          user_id?: string | null
+          weight?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          exercise_id?: string | null
+          id?: string
+          reps?: number | null
+          user_id?: string | null
+          weight?: number | null
+        }
+        Relationships: []
+      }
+      split_exercise: {
+        Row: {
+          created_at: string | null
+          exercise_id: string | null
+          id: number
+          split_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          exercise_id?: string | null
+          id?: number
+          split_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          exercise_id?: string | null
+          id?: number
+          split_id?: string | null
+        }
+        Relationships: []
+      }
+      splits: {
+        Row: {
+          created_at: string | null
+          id: number
+          name: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          name?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          name?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           cancel_at: string | null
@@ -246,6 +396,48 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
+      categorytype:
+        | "strength"
+        | "stretching"
+        | "plyometrics"
+        | "strongman"
+        | "powerlifting"
+        | "cardio"
+        | "olympic weightlifting"
+      equipmenttype:
+        | "body only"
+        | "machine"
+        | "other"
+        | "foam roll"
+        | "kettlebells"
+        | "dumbbell"
+        | "cable"
+        | "barbell"
+        | "medicine ball"
+        | "bands"
+        | "exercise ball"
+        | "e-z curl bar"
+      forcetype: "pull" | "push" | "static"
+      leveltype: "beginner" | "intermediate" | "expert"
+      mechanictype: "compound" | "isolation"
+      muscle:
+        | "abdominals"
+        | "hamstrings"
+        | "adductors"
+        | "quadriceps"
+        | "biceps"
+        | "shoulders"
+        | "chest"
+        | "middle back"
+        | "calves"
+        | "glutes"
+        | "lower back"
+        | "lats"
+        | "triceps"
+        | "traps"
+        | "forearms"
+        | "neck"
+        | "abductors"
       pricing_plan_interval: "day" | "week" | "month" | "year"
       pricing_type: "one_time" | "recurring"
       subscription_status:

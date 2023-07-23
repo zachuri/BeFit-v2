@@ -8,6 +8,8 @@ import { SiteFooter } from "@/components/site-footer"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { UserAccountNav } from "@/components/user-account-nav"
 
+import WeightLoading from "./weight/loading"
+
 interface DashboardLayoutProps {
   children?: React.ReactNode
 }
