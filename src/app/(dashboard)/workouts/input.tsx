@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { createSupabaseBrowserClient } from "@/utils/supabase-client"
 
 import { Database } from "@/types/supabase.db"
@@ -18,11 +18,6 @@ const InputForm = () => {
   const handleSearch = async () => {
     try {
       // Make a request to fetch exercises based on the search query
-      // const { data, error } = await supabaseClient
-      //   .from("weight")
-      //   .select()
-      //   .textSearch("description", searchQuery)
-
       //@ts-ignore
       const { data, error } = await supabase.rpc("search_exercise", {
         exercise_name: searchQuery,
@@ -39,6 +34,11 @@ const InputForm = () => {
     }
   }
 
+  // Call handleSearch on every change of searchQuery
+  useEffect(() => {
+    handleSearch()
+  }, [searchQuery])
+
   return (
     <div>
       <Input
@@ -50,9 +50,13 @@ const InputForm = () => {
       <button onClick={handleSearch}>Search</button>
 
       <ul>
-        {exerciseList.map((exercise) => (
-          <li key={exercise.id}>{exercise.name}</li>
-        ))}
+        {exerciseList
+          .filter((data) => {
+            return data.name.toLowerCase().includes(searchQuery.toLowerCase())
+          })
+          .map((exercise) => (
+            <li key={exercise.id}>{exercise.name}</li>
+          ))}
       </ul>
     </div>
   )
