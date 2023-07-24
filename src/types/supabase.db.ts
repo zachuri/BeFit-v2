@@ -273,23 +273,26 @@ export interface Database {
         }
         Relationships: []
       }
-      splits: {
+      split_group: {
         Row: {
           created_at: string | null
-          id: number
+          id: string
           name: string | null
+          splits: string[] | null
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
-          id?: number
+          id?: string
           name?: string | null
+          splits?: string[] | null
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
-          id?: number
+          id?: string
           name?: string | null
+          splits?: string[] | null
           user_id?: string | null
         }
         Relationships: []
@@ -393,7 +396,74 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      gtrgm_compress: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
+      gtrgm_decompress: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
+      gtrgm_in: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
+      gtrgm_options: {
+        Args: {
+          "": unknown
+        }
+        Returns: undefined
+      }
+      gtrgm_out: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
+      search_exercise: {
+        Args: {
+          exercise_name: string
+        }
+        Returns: {
+          id: string
+          name: string
+          aliases: string[]
+          primary_muscles: Database["public"]["Enums"]["muscle"][]
+          secondary_muscles: Database["public"]["Enums"]["muscle"][]
+          force: Database["public"]["Enums"]["forcetype"]
+          level: Database["public"]["Enums"]["leveltype"]
+          mechanic: Database["public"]["Enums"]["mechanictype"]
+          equipment: Database["public"]["Enums"]["equipmenttype"]
+          category: Database["public"]["Enums"]["categorytype"]
+          instructions: string[]
+          description: string
+          tips: string[]
+          date_created: string
+          date_updated: string
+        }[]
+      }
+      set_limit: {
+        Args: {
+          "": number
+        }
+        Returns: number
+      }
+      show_limit: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      show_trgm: {
+        Args: {
+          "": string
+        }
+        Returns: unknown
+      }
     }
     Enums: {
       categorytype:

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 
 export type Exercises = Database["public"]["Tables"]["exercises"]["Row"]
 
-const InputForm = () => {
+const ExerciseSearch = () => {
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [exerciseList, setExerciseList] = useState<Exercises[]>([])
 
@@ -47,7 +47,6 @@ const InputForm = () => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <button onClick={handleSearch}>Search</button>
 
       <ul>
         {exerciseList
@@ -62,4 +61,4 @@ const InputForm = () => {
   )
 }
 
-export default InputForm
+export default ExerciseSearch
