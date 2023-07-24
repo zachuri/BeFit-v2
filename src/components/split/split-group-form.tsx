@@ -28,7 +28,7 @@ interface TableFormProps {
   setOpen: (open: boolean) => void
 }
 
-export function SplitAddForm({ user_id, setOpen }: TableFormProps) {
+export function SplitGroupForm({ user_id, setOpen }: TableFormProps) {
   const { supabaseClient } = useSessionContext()
 
   const [uploading, setUploading] = useState(false)

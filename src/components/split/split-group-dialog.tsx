@@ -13,13 +13,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Icons } from "@/components/icons"
-import { SplitAddForm } from "@/components/split/split-add-form"
+import { SplitGroupForm } from "@/components/split/split-group-form"
 
 interface Props {
   user_id: string
 }
 
-export default function SplitAddDialog({ user_id }: Props) {
+export default function SplitGroupAddDialog({ user_id }: Props) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -44,7 +44,7 @@ export default function SplitAddDialog({ user_id }: Props) {
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid items-center gap-4">
-                <SplitAddForm user_id={user_id} setOpen={setOpen} />
+                <SplitGroupForm user_id={user_id} setOpen={setOpen} />
               </div>
             </div>
           </DialogContent>
