@@ -13,22 +13,31 @@ import { Icons } from "@/components/icons"
 import SplitAddDialog from "./split-add-dialog"
 
 export type SplitGroup = Database["public"]["Tables"]["split_group"]["Row"]
+export type Split = Database["public"]["Tables"]["split"]["Row"]
 
 interface Props {
-  splits: SplitGroup[]
+  split_group: SplitGroup[]
+  splits: Split[]
   user_id: string
 }
 
-export default function SplitDisplay({ splits, user_id }: Props) {
+export default function SplitDisplay({ split_group, splits, user_id }: Props) {
   return (
     <>
-      {splits.map((split) => {
+      {split_group.map((group) => {
+        // Filter the splits associated with the current group
+        const groupSplits = splits.filter(
+          (split) => split.split_group_id === group.id
+        )
+
         return (
-          <Card>
+          <Card key={group.id}>
+            {" "}
+            {/* Assuming you have a unique 'id' for each group */}
             <CardHeader>
               <CardTitle>
                 <div className="flex items-center justify-between space-y-2">
-                  <h1>{split.name}</h1>
+                  <h1>{group.name}</h1>
                   <div className="space-x-3">
                     <button>
                       <Icons.edit />
@@ -42,26 +51,34 @@ export default function SplitDisplay({ splits, user_id }: Props) {
             </CardHeader>
             <CardContent>
               <div className="items-right flex">
-                <SplitAddDialog user_id={user_id} split_group_id={split.id} />
+                <SplitAddDialog user_id={user_id} split_group_id={group.id} />
               </div>
-              {split.splits === null ? (
-                <CardHeader>
-                  <CardTitle>No split&apos;s added</CardTitle>
-                  <CardDescription>
-                    Please add all your individaul split&apos;s
-                  </CardDescription>
-                </CardHeader>
-              ) : (
-                <div className="grid gap-2 md:grid-cols-3">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Push</CardTitle>
-                      <CardDescription>Triceps, Chest</CardDescription>
-                    </CardHeader>
-                    <CardContent></CardContent>
-                  </Card>
-                </div>
-              )}
+              <div className="mt-5 grid gap-5 sm:grid-cols-2 md:grid-cols-3">
+                {groupSplits.length > 0 ? (
+                  // If there are splits for the group, display them
+                  groupSplits.map((split) => (
+                    <Card key={split.id}>
+                      {" "}
+                      {/* Assuming you have a unique 'id' for each split */}
+                      <CardHeader>
+                        <CardTitle>{split.name}</CardTitle>
+                        {/* <CardDescription>Triceps, Chest</CardDescription> */}
+                      </CardHeader>
+                      <CardContent>
+                        {/* Any content you want to display for each split */}
+                      </CardContent>
+                    </Card>
+                  ))
+                ) : (
+                  // If there are no splits for the group, display the message
+                  <CardHeader>
+                    <CardTitle>No split&apos;s added</CardTitle>
+                    <CardDescription>
+                      Please add all your individual splits
+                    </CardDescription>
+                  </CardHeader>
+                )}
+              </div>
             </CardContent>
           </Card>
         )

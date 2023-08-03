@@ -31,33 +31,6 @@ export interface Database {
           }
         ]
       }
-      exercise: {
-        Row: {
-          category: string | null
-          created_at: string | null
-          id: string
-          muscle_target: string | null
-          name: string | null
-          user_id: string | null
-        }
-        Insert: {
-          category?: string | null
-          created_at?: string | null
-          id: string
-          muscle_target?: string | null
-          name?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          category?: string | null
-          created_at?: string | null
-          id?: string
-          muscle_target?: string | null
-          name?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
       exercises: {
         Row: {
           category: Database["public"]["Enums"]["categorytype"]
@@ -216,39 +189,13 @@ export interface Database {
           }
         ]
       }
-      sets: {
-        Row: {
-          created_at: string | null
-          exercise_id: string | null
-          id: string
-          reps: number | null
-          user_id: string | null
-          weight: number | null
-        }
-        Insert: {
-          created_at?: string | null
-          exercise_id?: string | null
-          id: string
-          reps?: number | null
-          user_id?: string | null
-          weight?: number | null
-        }
-        Update: {
-          created_at?: string | null
-          exercise_id?: string | null
-          id?: string
-          reps?: number | null
-          user_id?: string | null
-          weight?: number | null
-        }
-        Relationships: []
-      }
       split: {
         Row: {
           created_at: string | null
           id: string
           muscle_targets: string[] | null
           name: string | null
+          split_group_id: string | null
           user_id: string | null
         }
         Insert: {
@@ -256,6 +203,7 @@ export interface Database {
           id?: string
           muscle_targets?: string[] | null
           name?: string | null
+          split_group_id?: string | null
           user_id?: string | null
         }
         Update: {
@@ -263,28 +211,8 @@ export interface Database {
           id?: string
           muscle_targets?: string[] | null
           name?: string | null
+          split_group_id?: string | null
           user_id?: string | null
-        }
-        Relationships: []
-      }
-      split_exercise: {
-        Row: {
-          created_at: string | null
-          exercise_id: string | null
-          id: number
-          split_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          exercise_id?: string | null
-          id?: number
-          split_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          exercise_id?: string | null
-          id?: number
-          split_id?: string | null
         }
         Relationships: []
       }
@@ -293,21 +221,18 @@ export interface Database {
           created_at: string | null
           id: string
           name: string | null
-          splits: string[] | null
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
           id?: string
           name?: string | null
-          splits?: string[] | null
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
           id?: string
           name?: string | null
-          splits?: string[] | null
           user_id?: string | null
         }
         Relationships: []
@@ -440,6 +365,25 @@ export interface Database {
           "": unknown
         }
         Returns: unknown
+      }
+      search_exercise: {
+        Args: {
+          exercise_name: string
+        }
+        Returns: {
+          id: string
+          name: string
+          primary_muscles: Database["public"]["Enums"]["muscle"][]
+          secondary_muscles: Database["public"]["Enums"]["muscle"][]
+          force: Database["public"]["Enums"]["forcetype"]
+          level: Database["public"]["Enums"]["leveltype"]
+          mechanic: Database["public"]["Enums"]["mechanictype"]
+          equipment: Database["public"]["Enums"]["equipmenttype"]
+          category: Database["public"]["Enums"]["categorytype"]
+          instructions: string[]
+          images: string[]
+          date_created: string
+        }[]
       }
       set_limit: {
         Args: {
