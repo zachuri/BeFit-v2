@@ -51,7 +51,7 @@ export function SplitGroupForm({ user_id, setOpen }: TableFormProps) {
         .from("split_group")
         .insert([
           {
-            name: data.name,
+            name: data.name.trim(),
             user_id: user_id,
           },
         ])
