@@ -55,3 +55,23 @@ export async function getUserSplits(user_id: string): Promise<Split[]> {
 
   return data as Split[]
 }
+
+export async function getUserSplitsById(
+  user_id: string,
+  split_id: string
+): Promise<Split[]> {
+  const supabase = createSupabaseServerClient()
+
+  const { data, error } = await supabase
+    .from("split")
+    .select("*")
+    .eq("user_id", user_id)
+    .eq("split_group_id", split_id)
+    .order("created_at", { ascending: true })
+
+  if (error) {
+    console.log(error)
+  }
+
+  return data as Split[]
+}

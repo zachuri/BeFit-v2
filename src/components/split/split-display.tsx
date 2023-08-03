@@ -18,10 +18,9 @@ export type Split = Database["public"]["Tables"]["split"]["Row"]
 interface Props {
   split_group: SplitGroup[]
   splits: Split[]
-  user_id: string
 }
 
-export default function SplitDisplay({ split_group, splits, user_id }: Props) {
+export default function SplitDisplay({ split_group, splits }: Props) {
   return (
     <>
       {split_group.map((group) => {
@@ -33,7 +32,7 @@ export default function SplitDisplay({ split_group, splits, user_id }: Props) {
         return (
           <Card key={group.id}>
             {/* Assuming you have a unique 'id' for each group */}
-            <Link href={`workouts/${group.id}`}>
+            <Link href={`workouts/${group.name}/${group.id}`}>
               <CardHeader>
                 <CardTitle>
                   <h1>{group.name}</h1>
@@ -41,9 +40,6 @@ export default function SplitDisplay({ split_group, splits, user_id }: Props) {
               </CardHeader>
             </Link>
             <CardContent>
-              <div className="items-right flex">
-                <SplitAddDialog user_id={user_id} split_group_id={group.id} />
-              </div>
               <div className="mt-5 grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                 {groupSplits.length > 0 ? (
                   // If there are splits for the group, display them
