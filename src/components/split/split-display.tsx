@@ -62,7 +62,13 @@ export default function SplitDisplay({ split_group, splits, user_id }: Props) {
                       {/* Assuming you have a unique 'id' for each split */}
                       <CardHeader>
                         <CardTitle>{split.name}</CardTitle>
-                        {/* <CardDescription>Triceps, Chest</CardDescription> */}
+                        <CardDescription>
+                        {split.muscle_targets?.length ? (
+                          <p>{split.muscle_targets.join(", ")}</p>
+                        ) : (
+                          <p>No muscle targets added</p>
+                        )}
+                        </CardDescription>
                       </CardHeader>
                       <CardContent>
                         {/* Any content you want to display for each split */}
