@@ -7,6 +7,7 @@ import { useSessionContext } from "@supabase/auth-helpers-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
+import { muscle_target } from "@/lib/muscle-target"
 import { splitSchema } from "@/lib/validations/split"
 import { Button } from "@/components/ui/button"
 import {
@@ -20,6 +21,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
+
+import { Checkbox } from "../ui/checkbox"
 
 type FormData = z.infer<typeof splitSchema>
 
@@ -46,6 +49,7 @@ export default function SplitAddForm({
       name: "",
       user_id: user_id,
       split_group_id: split_group_id,
+      muscle_targets: [],
     },
   })
 
@@ -60,6 +64,7 @@ export default function SplitAddForm({
             name: data.name,
             user_id: user_id,
             split_group_id: split_group_id,
+            muscle_targets: data.muscle_targets,
           },
         ])
         .select()
@@ -109,6 +114,54 @@ export default function SplitAddForm({
               {form.formState.errors.name && (
                 <FormMessage>{form.formState.errors.name.message}</FormMessage>
               )}
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="muscle_targets"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel className="text-base">Muscle Target</FormLabel>
+                <FormDescription>
+                  Select the muscles that align with your split
+                </FormDescription>
+              </div>
+              {muscle_target.map((item) => (
+                <FormField
+                  key={item.id}
+                  control={form.control}
+                  name="muscle_targets"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={item.id}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(item.id)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== item.id
+                                    )
+                                  )
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {item.label}
+                        </FormLabel>
+                      </FormItem>
+                    )
+                  }}
+                />
+              ))}
+              <FormMessage />
             </FormItem>
           )}
         />
