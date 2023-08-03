@@ -40,7 +40,7 @@ export async function getUserGroupSplits(
   return data as SplitGroup[]
 }
 
-export async function getUserSplit(user_id: string): Promise<Split[]> {
+export async function getUserSplits(user_id: string): Promise<Split[]> {
   const supabase = createSupabaseServerClient()
 
   const { data, error } = await supabase
