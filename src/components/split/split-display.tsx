@@ -1,6 +1,9 @@
+"use client"
+
 import React from "react"
 import Link from "next/link"
 
+import { Split, SplitGroup } from "@/types/split"
 import { Database } from "@/types/supabase.db"
 import {
   Card,
@@ -11,9 +14,7 @@ import {
 } from "@/components/ui/card"
 
 import SplitAddDialog from "./split-add-dialog"
-
-export type SplitGroup = Database["public"]["Tables"]["split_group"]["Row"]
-export type Split = Database["public"]["Tables"]["split"]["Row"]
+import SplitCards from "./split-cards"
 
 interface Props {
   split_group: SplitGroup[]
@@ -40,38 +41,7 @@ export default function SplitDisplay({ split_group, splits }: Props) {
               </CardHeader>
             </Link>
             <CardContent>
-              <div className="mt-5 grid gap-5 sm:grid-cols-2 md:grid-cols-3">
-                {groupSplits.length > 0 ? (
-                  // If there are splits for the group, display them
-                  groupSplits.map((split) => (
-                    <Card key={split.id}>
-                      {" "}
-                      {/* Assuming you have a unique 'id' for each split */}
-                      <CardHeader>
-                        <CardTitle>{split.name}</CardTitle>
-                        <CardDescription>
-                          {split.muscle_targets?.length ? (
-                            <p>{split.muscle_targets.join(", ")}</p>
-                          ) : (
-                            <p>No muscle targets added</p>
-                          )}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        {/* Any content you want to display for each split */}
-                      </CardContent>
-                    </Card>
-                  ))
-                ) : (
-                  // If there are no splits for the group, display the message
-                  <CardHeader>
-                    <CardTitle>No split&apos;s added</CardTitle>
-                    <CardDescription>
-                      Please add all your individual splits
-                    </CardDescription>
-                  </CardHeader>
-                )}
-              </div>
+              <SplitCards splits={groupSplits} />
             </CardContent>
           </Card>
         )
