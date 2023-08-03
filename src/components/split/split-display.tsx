@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 
 import { Database } from "@/types/supabase.db"
 import {
@@ -8,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Icons } from "@/components/icons"
 
 import SplitAddDialog from "./split-add-dialog"
 
@@ -32,23 +32,14 @@ export default function SplitDisplay({ split_group, splits, user_id }: Props) {
 
         return (
           <Card key={group.id}>
-            {" "}
             {/* Assuming you have a unique 'id' for each group */}
-            <CardHeader>
-              <CardTitle>
-                <div className="flex items-center justify-between space-y-2">
+            <Link href={`workouts/${group.id}`}>
+              <CardHeader>
+                <CardTitle>
                   <h1>{group.name}</h1>
-                  <div className="space-x-3">
-                    <button>
-                      <Icons.edit />
-                    </button>
-                    <button>
-                      <Icons.trash />
-                    </button>
-                  </div>
-                </div>
-              </CardTitle>
-            </CardHeader>
+                </CardTitle>
+              </CardHeader>
+            </Link>
             <CardContent>
               <div className="items-right flex">
                 <SplitAddDialog user_id={user_id} split_group_id={group.id} />
@@ -63,11 +54,11 @@ export default function SplitDisplay({ split_group, splits, user_id }: Props) {
                       <CardHeader>
                         <CardTitle>{split.name}</CardTitle>
                         <CardDescription>
-                        {split.muscle_targets?.length ? (
-                          <p>{split.muscle_targets.join(", ")}</p>
-                        ) : (
-                          <p>No muscle targets added</p>
-                        )}
+                          {split.muscle_targets?.length ? (
+                            <p>{split.muscle_targets.join(", ")}</p>
+                          ) : (
+                            <p>No muscle targets added</p>
+                          )}
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
