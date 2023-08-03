@@ -10,13 +10,16 @@ import {
 } from "@/components/ui/card"
 import { Icons } from "@/components/icons"
 
+import SplitAddDialog from "./split-add-dialog"
+
 export type SplitGroup = Database["public"]["Tables"]["split_group"]["Row"]
 
 interface Props {
   splits: SplitGroup[]
+  user_id: string
 }
 
-export default function SplitDisplay({ splits }: Props) {
+export default function SplitDisplay({ splits, user_id }: Props) {
   return (
     <>
       {splits.map((split) => {
@@ -28,9 +31,6 @@ export default function SplitDisplay({ splits }: Props) {
                   <h1>{split.name}</h1>
                   <div className="space-x-3">
                     <button>
-                      <Icons.add />
-                    </button>
-                    <button>
                       <Icons.edit />
                     </button>
                     <button>
@@ -41,6 +41,9 @@ export default function SplitDisplay({ splits }: Props) {
               </CardTitle>
             </CardHeader>
             <CardContent>
+              <div className="items-right flex">
+                <SplitAddDialog user_id={user_id} split_group_id={split.id} />
+              </div>
               {split.splits === null ? (
                 <CardHeader>
                   <CardTitle>No split&apos;s added</CardTitle>

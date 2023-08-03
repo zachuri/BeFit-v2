@@ -7,7 +7,7 @@ import { useSessionContext } from "@supabase/auth-helpers-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-import { splitGroupSchema } from "@/lib/validations/split"
+import { splitSchema } from "@/lib/validations/split"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -21,14 +21,19 @@ import {
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 
-type FormData = z.infer<typeof splitGroupSchema>
+type FormData = z.infer<typeof splitSchema>
 
-interface TableFormProps {
+interface Props {
   user_id: string
+  split_group_id: string
   setOpen: (open: boolean) => void
 }
 
-export function SplitGroupForm({ user_id, setOpen }: TableFormProps) {
+export default function SplitAddForm({
+  user_id,
+  split_group_id,
+  setOpen,
+}: Props) {
   const { supabaseClient } = useSessionContext()
 
   const [uploading, setUploading] = useState(false)
@@ -36,10 +41,11 @@ export function SplitGroupForm({ user_id, setOpen }: TableFormProps) {
   const router = useRouter()
 
   const form = useForm<FormData>({
-    resolver: zodResolver(splitGroupSchema),
+    resolver: zodResolver(splitSchema),
     defaultValues: {
       name: "",
       user_id: user_id,
+      split_group_id: split_group_id,
     },
   })
 
@@ -48,11 +54,12 @@ export function SplitGroupForm({ user_id, setOpen }: TableFormProps) {
       setUploading(true)
 
       const { error: insertError } = await supabaseClient
-        .from("split_group")
+        .from("split")
         .insert([
           {
             name: data.name,
             user_id: user_id,
+            split_group_id: split_group_id,
           },
         ])
         .select()
@@ -94,13 +101,11 @@ export function SplitGroupForm({ user_id, setOpen }: TableFormProps) {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Split Group Name</FormLabel>
+              <FormLabel>Split Name</FormLabel>
               <FormControl>
-                <Input placeholder="Bro Split..." type="text" {...field} />
+                <Input placeholder="Push Day..." type="text" {...field} />
               </FormControl>
-              <FormDescription>
-                Enter the split group name here.
-              </FormDescription>
+              <FormDescription>Enter the split name here.</FormDescription>
               {form.formState.errors.name && (
                 <FormMessage>{form.formState.errors.name.message}</FormMessage>
               )}
