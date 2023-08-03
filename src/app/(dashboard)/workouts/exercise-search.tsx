@@ -27,6 +27,7 @@ const ExerciseSearch = () => {
       if (error) {
         console.error("Error fetching exercises:", error.message)
       } else {
+        // @ts-ignore
         setExerciseList(data)
         console.log(data)
       }
