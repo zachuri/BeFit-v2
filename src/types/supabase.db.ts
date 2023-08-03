@@ -60,55 +60,46 @@ export interface Database {
       }
       exercises: {
         Row: {
-          aliases: string[] | null
           category: Database["public"]["Enums"]["categorytype"]
           date_created: string
-          date_updated: string
-          description: string | null
           equipment: Database["public"]["Enums"]["equipmenttype"] | null
           force: Database["public"]["Enums"]["forcetype"] | null
           id: string
+          images: string[] | null
           instructions: string[] | null
           level: Database["public"]["Enums"]["leveltype"]
           mechanic: Database["public"]["Enums"]["mechanictype"] | null
           name: string
           primary_muscles: Database["public"]["Enums"]["muscle"][] | null
           secondary_muscles: Database["public"]["Enums"]["muscle"][] | null
-          tips: string[] | null
         }
         Insert: {
-          aliases?: string[] | null
           category: Database["public"]["Enums"]["categorytype"]
           date_created?: string
-          date_updated?: string
-          description?: string | null
           equipment?: Database["public"]["Enums"]["equipmenttype"] | null
           force?: Database["public"]["Enums"]["forcetype"] | null
           id: string
+          images?: string[] | null
           instructions?: string[] | null
           level: Database["public"]["Enums"]["leveltype"]
           mechanic?: Database["public"]["Enums"]["mechanictype"] | null
           name: string
           primary_muscles?: Database["public"]["Enums"]["muscle"][] | null
           secondary_muscles?: Database["public"]["Enums"]["muscle"][] | null
-          tips?: string[] | null
         }
         Update: {
-          aliases?: string[] | null
           category?: Database["public"]["Enums"]["categorytype"]
           date_created?: string
-          date_updated?: string
-          description?: string | null
           equipment?: Database["public"]["Enums"]["equipmenttype"] | null
           force?: Database["public"]["Enums"]["forcetype"] | null
           id?: string
+          images?: string[] | null
           instructions?: string[] | null
           level?: Database["public"]["Enums"]["leveltype"]
           mechanic?: Database["public"]["Enums"]["mechanictype"] | null
           name?: string
           primary_muscles?: Database["public"]["Enums"]["muscle"][] | null
           secondary_muscles?: Database["public"]["Enums"]["muscle"][] | null
-          tips?: string[] | null
         }
         Relationships: []
       }
@@ -249,6 +240,30 @@ export interface Database {
           reps?: number | null
           user_id?: string | null
           weight?: number | null
+        }
+        Relationships: []
+      }
+      split: {
+        Row: {
+          created_at: string | null
+          id: string
+          muscle_targets: string[] | null
+          name: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          muscle_targets?: string[] | null
+          name?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          muscle_targets?: string[] | null
+          name?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -425,28 +440,6 @@ export interface Database {
           "": unknown
         }
         Returns: unknown
-      }
-      search_exercise: {
-        Args: {
-          exercise_name: string
-        }
-        Returns: {
-          id: string
-          name: string
-          aliases: string[]
-          primary_muscles: Database["public"]["Enums"]["muscle"][]
-          secondary_muscles: Database["public"]["Enums"]["muscle"][]
-          force: Database["public"]["Enums"]["forcetype"]
-          level: Database["public"]["Enums"]["leveltype"]
-          mechanic: Database["public"]["Enums"]["mechanictype"]
-          equipment: Database["public"]["Enums"]["equipmenttype"]
-          category: Database["public"]["Enums"]["categorytype"]
-          instructions: string[]
-          description: string
-          tips: string[]
-          date_created: string
-          date_updated: string
-        }[]
       }
       set_limit: {
         Args: {

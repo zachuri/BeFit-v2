@@ -6,7 +6,7 @@ const nextConfig = {
   },
   images: {
     minimumCacheTTL: 60,
-    domains: ["chwdaugcjxtyyfiqjibf.supabase.co"],
+    domains: ["chwdaugcjxtyyfiqjibf.supabase.co", "raw.githubusercontent.com"],
   },
 }
 

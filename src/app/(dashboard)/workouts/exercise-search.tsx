@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
+import Image from "next/image"
 import { createSupabaseBrowserClient } from "@/utils/supabase-client"
 
 import { Database } from "@/types/supabase.db"
@@ -54,7 +55,19 @@ const ExerciseSearch = () => {
             return data.name.toLowerCase().includes(searchQuery.toLowerCase())
           })
           .map((exercise) => (
-            <li key={exercise.id}>{exercise.name}</li>
+            <>
+              <li key={exercise.id}>{exercise.name}</li>
+              {exercise.images?.map((image) => {
+                return (
+                  <Image
+                    src={`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${image}`}
+                    width={100}
+                    height={100}
+                    alt={""}
+                  />
+                )
+              })}
+            </>
           ))}
       </ul>
     </div>
