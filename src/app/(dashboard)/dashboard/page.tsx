@@ -1,5 +1,6 @@
 import React, { Suspense } from "react"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 
 import { getServerSession } from "@/lib/session"
 import {
@@ -19,6 +20,10 @@ import WeightCard from "./weight-card"
 export default async function Page() {
   const session = await getServerSession()
   const weights = await getUserWeight(session?.user.id)
+
+  if (!session.user) {
+    redirect("/login")
+  }
 
   return (
     <>

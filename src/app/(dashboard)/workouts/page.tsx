@@ -1,4 +1,5 @@
 import React from "react"
+import { redirect } from "next/navigation"
 
 import { getServerSession } from "@/lib/session"
 import SplitGroupDisplay from "@/components/split/split group/split-group-display"
@@ -11,6 +12,10 @@ export default async function Page() {
 
   const split_group = await getUserGroupSplits(session.user.id)
   const splits = await getUserSplits(session.user.id)
+
+  if (!session.user.id) {
+    redirect("/login");
+  }
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">

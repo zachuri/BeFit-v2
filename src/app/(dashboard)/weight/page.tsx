@@ -1,4 +1,5 @@
 import React, { Suspense } from "react"
+import { redirect } from "next/navigation"
 
 import { getServerSession } from "@/lib/session"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
@@ -20,6 +21,10 @@ export default async function Page() {
   const session = await getServerSession()
 
   const weights = await getUserWeight(session.user.id)
+
+  if (!session.user) {
+    redirect("/login")
+  }
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
