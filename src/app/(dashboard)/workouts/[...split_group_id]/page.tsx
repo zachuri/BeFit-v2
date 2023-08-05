@@ -1,4 +1,8 @@
-import { Database } from "@/types/supabase.db"
+import { notFound } from "next/navigation"
+import { createSupabaseBrowserClient } from "@/utils/supabase-client"
+import { createSupabaseServerClient } from "@/utils/supabase-server"
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+
 import { getServerSession } from "@/lib/session"
 import { SplitGroupDeleteDialog } from "@/components/split/split group/split-group-delete-dialog"
 import SplitGroupUpdateDialog from "@/components/split/split group/split-group-update-dialog"
@@ -6,8 +10,6 @@ import SplitAddDialog from "@/components/split/split-add-dialog"
 import SplitCards from "@/components/split/split-cards"
 
 import { getUserSplitsById } from "../../dashboard/actions"
-
-export type Split = Database["public"]["Tables"]["split"]["Row"]
 
 export default async function Split({
   params,
@@ -19,6 +21,10 @@ export default async function Split({
 
   const session = await getServerSession()
   const splits = await getUserSplitsById(session.user.id, split_group_id)
+
+  if (!splits) {
+    notFound()
+  }
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
@@ -45,3 +51,5 @@ export default async function Split({
     </div>
   )
 }
+
+export const dynamic = "force-dynamic"

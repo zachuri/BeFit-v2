@@ -14,7 +14,7 @@ export default async function Page() {
   const splits = await getUserSplits(session.user.id)
 
   if (!session.user.id) {
-    redirect("/login");
+    redirect("/login")
   }
 
   return (

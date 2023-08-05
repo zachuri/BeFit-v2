@@ -12,8 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-
-import SplitAddDialog from "@/components/split/split-add-dialog"
 import SplitCards from "@/components/split/split-cards"
 
 interface Props {
@@ -33,7 +31,9 @@ export default function SplitDisplay({ split_group, splits }: Props) {
         return (
           <Card key={group.id}>
             {/* Assuming you have a unique 'id' for each group */}
-            <Link href={`workouts/${group.id}/${group.name?.replace(/ /g, "_")}`}>
+            <Link
+              href={`workouts/${group.id}/${group.name?.replace(/ /g, "_")}`}
+            >
               <CardHeader>
                 <CardTitle>
                   <h1>{group.name}</h1>
