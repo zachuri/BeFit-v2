@@ -37,7 +37,7 @@ export default function SupabaseAuthListener({ serverAccessToken }: Props) {
         session?.expires_at <= Math.floor(Date.now() / 1000)
       ) {
         // Delete cookies when the user signs out
-        router.push("/login", { replace: true }) // Redirect to the login page
+        router.push("/login") // Redirect to the login page
         localStorage.clear()
       }
     })
