@@ -75,3 +75,15 @@ export async function getUserSplitsById(
 
   return data as Split[]
 }
+
+export async function getSplitGroupName(id: string) {
+  const supabase = createSupabaseServerClient()
+
+  const { data } = await supabase
+    .from("split_group")
+    .select("name")
+    .eq("id", id)
+    .single()
+
+  return data?.name as string
+}

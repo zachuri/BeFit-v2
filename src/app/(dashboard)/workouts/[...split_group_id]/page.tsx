@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation"
 import { createSupabaseBrowserClient } from "@/utils/supabase-client"
 import { createSupabaseServerClient } from "@/utils/supabase-server"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { getServerSession } from "@/lib/session"
 import { SplitGroupDeleteDialog } from "@/components/split/split group/split-group-delete-dialog"
@@ -9,17 +8,12 @@ import SplitGroupUpdateDialog from "@/components/split/split group/split-group-u
 import SplitAddDialog from "@/components/split/split-add-dialog"
 import SplitCards from "@/components/split/split-cards"
 
-import { getUserSplitsById } from "../../dashboard/actions"
+import { getSplitGroupName, getUserSplitsById } from "../../dashboard/actions"
 
 export async function generateStaticParams() {
   const supabase = createSupabaseBrowserClient()
 
-  const { data: splits } = await supabase
-    .from("split_group")
-    .select("id")
-    .select("name")
-
-  console.log(splits)
+  const { data: splits } = await supabase.from("split_group").select("id")
 
   return splits ?? []
 }
@@ -30,10 +24,10 @@ export default async function Split({
   params: { split_group_id: string }
 }) {
   const split_group_id = params.split_group_id[0]
-  const name = params.split_group_id[1].replace(/_/g, " ")
 
   const session = await getServerSession()
   const splits = await getUserSplitsById(session.user.id, split_group_id)
+  const name = await getSplitGroupName(split_group_id)
 
   if (!splits) {
     notFound()
