@@ -11,6 +11,19 @@ import SplitCards from "@/components/split/split-cards"
 
 import { getUserSplitsById } from "../../dashboard/actions"
 
+export async function generateStaticParams() {
+  const supabase = createSupabaseBrowserClient()
+
+  const { data: splits } = await supabase
+    .from("split_group")
+    .select("id")
+    .select("name")
+
+  console.log(splits)
+
+  return splits ?? []
+}
+
 export default async function Split({
   params,
 }: {
