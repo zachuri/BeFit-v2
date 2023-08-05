@@ -80,7 +80,7 @@ export function SplitGroupUpdateForm({
 
       setOpen(false)
 
-      router.replace(`${data.name}`)
+      router.replace(`${data.name.replace(/ /g, "_")}`)
     } catch (error) {
       console.error(error)
       toast({

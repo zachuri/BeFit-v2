@@ -2,6 +2,7 @@ import { Database } from "@/types/supabase.db"
 import { getServerSession } from "@/lib/session"
 import SplitAddDialog from "@/components/split/split-add-dialog"
 import SplitCards from "@/components/split/split-cards"
+import { SplitGroupDeleteDialog } from "@/components/split/split-group-delete-dialog"
 import SplitGroupUpdateDialog from "@/components/split/split-group-update-dialog"
 
 import { getUserSplitsById } from "../../dashboard/actions"
@@ -24,6 +25,11 @@ export default async function Split({
       <div className="flex flex-row justify-between">
         <h2 className="text-3xl font-bold tracking-tight">{name}</h2>
         <div className="flex flex-row gap-3">
+          <SplitGroupDeleteDialog
+            name={name}
+            split_group_id={split_group_id}
+            user_id={session.user.id}
+          />
           <SplitGroupUpdateDialog
             split_group_id={split_group_id}
             user_id={session.user.id}
