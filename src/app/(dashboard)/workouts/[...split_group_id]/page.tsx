@@ -1,9 +1,9 @@
 import { Database } from "@/types/supabase.db"
 import { getServerSession } from "@/lib/session"
+import { SplitGroupDeleteDialog } from "@/components/split/split group/split-group-delete-dialog"
+import SplitGroupUpdateDialog from "@/components/split/split group/split-group-update-dialog"
 import SplitAddDialog from "@/components/split/split-add-dialog"
 import SplitCards from "@/components/split/split-cards"
-import { SplitGroupDeleteDialog } from "@/components/split/split-group-delete-dialog"
-import SplitGroupUpdateDialog from "@/components/split/split-group-update-dialog"
 
 import { getUserSplitsById } from "../../dashboard/actions"
 

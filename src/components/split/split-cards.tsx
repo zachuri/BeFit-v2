@@ -10,6 +10,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
+import { Icons } from "../icons"
+
 interface Props {
   splits: Split[]
 }
@@ -24,7 +26,10 @@ export default function SplitCards({ splits }: Props) {
             {" "}
             {/* Assuming you have a unique 'id' for each split */}
             <CardHeader>
-              <CardTitle>{split.name}</CardTitle>
+              <CardTitle className="flex justify-between">
+                {split.name}
+                <Icons.ellipsis />
+              </CardTitle>
               <CardDescription>
                 {split.muscle_targets?.length ? (
                   <p>{split.muscle_targets.join(", ")}</p>

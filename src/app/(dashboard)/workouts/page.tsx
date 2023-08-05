@@ -1,9 +1,9 @@
 import React from "react"
 
 import { getServerSession } from "@/lib/session"
-import SplitGroupDisplay from "@/components/split/split-group-display"
+import SplitGroupDisplay from "@/components/split/split group/split-group-display"
 
-import SplitGroupDialog from "../../../components/split/split-group-dialog"
+import SplitGroupDialog from "../../../components/split/split group/split-group-dialog"
 import { getUserGroupSplits, getUserSplits } from "../dashboard/actions"
 
 export default async function Page() {

@@ -19,9 +19,9 @@ import {
 } from "@/components/ui/alert-dialog"
 import { toast } from "@/components/ui/use-toast"
 
-import { Icons } from "../icons"
-import { Button, buttonVariants } from "../ui/button"
-import { Input } from "../ui/input"
+import { Icons } from "../../icons"
+import { Button, buttonVariants } from "../../ui/button"
+import { Input } from "../../ui/input"
 
 interface Props {
   name: string

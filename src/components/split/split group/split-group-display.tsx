@@ -13,8 +13,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import SplitAddDialog from "./split-add-dialog"
-import SplitCards from "./split-cards"
+import SplitAddDialog from "@/components/split/split-add-dialog"
+import SplitCards from "@/components/split/split-cards"
 
 interface Props {
   split_group: SplitGroup[]

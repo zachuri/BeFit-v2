@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Icons } from "@/components/icons"
-import { SplitGroupForm } from "@/components/split/split-group-form"
+import { SplitGroupForm } from "@/components/split/split group/split-group-form"
 
 interface Props {
   user_id: string
