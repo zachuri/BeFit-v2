@@ -11,14 +11,23 @@ import { getSplitGroupName, getUserSplitsById } from "../../dashboard/actions"
 
 export async function generateStaticParams() {
   const supabase = createSupabaseBrowserClient()
-  const session = await getServerSession()
 
-  const { data: splits } = await supabase
-    .from("split_group")
-    .select("id")
-    .eq("user_id", session.user.id)
+  try {
+    const { data, error } = await supabase.auth.getSession()
 
-  return splits ?? []
+    if (error) {
+      throw error
+    }
+
+    const { data: splits } = await supabase
+      .from("split_group")
+      .select("id")
+      .eq("user_id", data.session?.user.id)
+
+    return splits ?? []
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export default async function Split({
