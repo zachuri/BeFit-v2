@@ -57,5 +57,3 @@ export default async function Split({
     </div>
   )
 }
-
-export const dynamic = "force-dynamic"

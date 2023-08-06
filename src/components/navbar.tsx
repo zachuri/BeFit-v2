@@ -1,12 +1,8 @@
-import Link from "next/link"
+"use client"
+
 import { MainNavItem } from "@/types"
 
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 interface Props {
   children: React.ReactNode
