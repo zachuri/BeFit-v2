@@ -27,6 +27,7 @@ export async function generateStaticParams() {
     return splits ?? []
   } catch (error) {
     console.log(error)
+    return []
   }
 }
 
