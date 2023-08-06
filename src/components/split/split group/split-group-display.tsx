@@ -33,9 +33,7 @@ export default function SplitDisplay({ split_group, splits }: Props) {
             {/* Assuming you have a unique 'id' for each group */}
             <Link href={`workouts/${group.id}`}>
               <CardHeader>
-                <CardTitle>
-                  <h1>{group.name}</h1>
-                </CardTitle>
+                <CardTitle>{group.name}</CardTitle>
               </CardHeader>
             </Link>
             <CardContent>

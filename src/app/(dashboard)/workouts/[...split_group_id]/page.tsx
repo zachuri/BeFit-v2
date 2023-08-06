@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation"
 import { createSupabaseBrowserClient } from "@/utils/supabase-client"
-import { createSupabaseServerClient } from "@/utils/supabase-server"
 
 import { getServerSession } from "@/lib/session"
 import { SplitGroupDeleteDialog } from "@/components/split/split group/split-group-delete-dialog"

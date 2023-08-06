@@ -3,7 +3,6 @@
 import { useState } from "react"
 
 import { Split } from "@/types/split"
-import { Database } from "@/types/supabase.db"
 import {
   Card,
   CardContent,
@@ -93,11 +92,9 @@ export default function SplitCards({ splits }: Props) {
                 </DropdownMenu>
               </CardTitle>
               <CardDescription>
-                {split.muscle_targets?.length ? (
-                  <p>{split.muscle_targets.join(", ")}</p>
-                ) : (
-                  <p>No muscle targets added</p>
-                )}
+                {split.muscle_targets?.length
+                  ? split.muscle_targets.join(", ")
+                  : "No muscle targtets added"}
               </CardDescription>
             </CardHeader>
             <CardContent>
