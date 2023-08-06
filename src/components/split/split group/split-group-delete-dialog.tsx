@@ -47,6 +47,7 @@ export function SplitGroupDeleteDialog({
           .from("split_group")
           .delete()
           .eq("id", split_group_id)
+          .eq("user_id", user_id)
 
         if (error) {
           console.log(error?.message)
@@ -57,6 +58,7 @@ export function SplitGroupDeleteDialog({
           description: "Your changes have been updated.",
         })
 
+        router.refresh()
         router.push("/workouts")
       } catch (error) {
         return toast({
