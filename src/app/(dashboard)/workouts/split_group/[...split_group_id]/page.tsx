@@ -34,7 +34,7 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function Split({
+export default async function SplitGroup({
   params,
 }: {
   params: { split_group_id: string }
