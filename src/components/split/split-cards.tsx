@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 
 import { Split } from "@/types/split"
 import {
@@ -48,59 +49,64 @@ export default function SplitCards({ splits }: Props) {
       {splits.length > 0 ? (
         // If there are splits for the group, display them
         splits.map((split) => (
-          <Card key={split.id}>
-            {/* Assuming you have a unique 'id' for each split */}
-            <CardHeader>
-              <CardTitle className="flex justify-between">
-                {split.name}
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <Icons.ellipsis />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <Dialog open={open} onOpenChange={setOpen}>
-                      <DropdownMenuItem
-                        onSelect={(event) => {
-                          event.preventDefault()
-                        }}
-                      >
-                        <DialogTrigger asChild>
-                          <button onClick={handleClick}>Update</button>
-                        </DialogTrigger>
-                      </DropdownMenuItem>
-                      <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                          <DialogTitle>Add weight</DialogTitle>
-                          <DialogDescription>
-                            Click save when you&apos;re done.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                          <div className="grid items-center gap-4">
-                            <SplitUpdateForm split={split} setOpen={setOpen} />
+          <Link href={`workouts/split/${split.id}`}>
+            <Card key={split.id}>
+              {/* Assuming you have a unique 'id' for each split */}
+              <CardHeader>
+                <CardTitle className="flex justify-between">
+                  {split.name}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Icons.ellipsis />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <Dialog open={open} onOpenChange={setOpen}>
+                        <DropdownMenuItem
+                          onSelect={(event) => {
+                            event.preventDefault()
+                          }}
+                        >
+                          <DialogTrigger asChild>
+                            <button onClick={handleClick}>Update</button>
+                          </DialogTrigger>
+                        </DropdownMenuItem>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Add weight</DialogTitle>
+                            <DialogDescription>
+                              Click save when you&apos;re done.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="grid gap-4 py-4">
+                            <div className="grid items-center gap-4">
+                              <SplitUpdateForm
+                                split={split}
+                                setOpen={setOpen}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
+                        </DialogContent>
+                      </Dialog>
 
-                    <DropdownMenuItem>
-                      <SplitDeleteDialog split_id={split.id} />
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </CardTitle>
-              <CardDescription>
-                {split.muscle_targets?.length
-                  ? split.muscle_targets.join(", ")
-                  : "No muscle targtets added"}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {/* Any content you want to display for each split */}
-            </CardContent>
-          </Card>
+                      <DropdownMenuItem>
+                        <SplitDeleteDialog split_id={split.id} />
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </CardTitle>
+                <CardDescription>
+                  {split.muscle_targets?.length
+                    ? split.muscle_targets.join(", ")
+                    : "No muscle targtets added"}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {/* Any content you want to display for each split */}
+              </CardContent>
+            </Card>
+          </Link>
         ))
       ) : (
         // If there are no splits for the group, display the message
