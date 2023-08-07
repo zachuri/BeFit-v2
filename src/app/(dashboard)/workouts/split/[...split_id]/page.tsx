@@ -1,5 +1,28 @@
 import React from "react"
+import { notFound } from "next/navigation"
 import { createSupabaseBrowserClient } from "@/utils/supabase-client"
+
+import { getServerSession } from "@/lib/session"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import ExerciseSearch from "@/components/exercise/exercise-search"
+import ExerciseSearchDialog from "@/components/exercise/exercise-search-dialog"
+import { Icons } from "@/components/icons"
+import {
+  getSplitName,
+  getUserSplitById,
+} from "@/app/(dashboard)/dashboard/actions"
 
 export async function generateStaticParams() {
   const supabase = createSupabaseBrowserClient()
@@ -29,5 +52,29 @@ export default async function Split({
   params: { split_id: string }
 }) {
   const split_id = params.split_id[0]
-  return <h1>{split_id}</h1>
+
+  const session = await getServerSession()
+  const split = await getUserSplitById(session.user.id, split_id)
+  const name = await getSplitName(split_id)
+
+  if (!split) {
+    notFound()
+  }
+
+  return (
+    <div className="flex-1 space-y-4 p-8 pt-6">
+      <div className="flex flex-col justify-between gap-5">
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-bold tracking-tight">{name}</h2>
+          <ExerciseSearchDialog />
+        </div>
+        <div className="grid grid-cols-3">
+          <Card>
+            <CardHeader>Exercise</CardHeader>
+          </Card>
+        </div>
+        <ExerciseSearch />
+      </div>
+    </div>
+  )
 }

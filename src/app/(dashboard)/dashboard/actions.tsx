@@ -87,3 +87,35 @@ export async function getSplitGroupName(id: string) {
 
   return data?.name as string
 }
+
+export async function getUserSplitById(
+  user_id: string,
+  split_id: string
+): Promise<Split[]> {
+  const supabase = createSupabaseServerClient()
+
+  const { data, error } = await supabase
+    .from("split")
+    .select("*")
+    .eq("user_id", user_id)
+    .eq("split_group_id", split_id)
+    .order("created_at", { ascending: true })
+
+  if (error) {
+    console.log(error)
+  }
+
+  return data as Split[]
+}
+
+export async function getSplitName(id: string) {
+  const supabase = createSupabaseServerClient()
+
+  const { data } = await supabase
+    .from("split")
+    .select("name")
+    .eq("id", id)
+    .single()
+
+  return data?.name as string
+}
