@@ -7,7 +7,10 @@ import SplitGroupUpdateDialog from "@/components/split/split group/split-group-u
 import SplitAddDialog from "@/components/split/split-add-dialog"
 import SplitCards from "@/components/split/split-cards"
 
-import { getSplitGroupName, getUserSplitsById } from "../../dashboard/actions"
+import {
+  getSplitGroupName,
+  getUserSplitsById,
+} from "../../../dashboard/actions"
 
 export async function generateStaticParams() {
   const supabase = createSupabaseBrowserClient()
@@ -36,7 +39,7 @@ export default async function Split({
 }: {
   params: { split_group_id: string }
 }) {
-  const split_group_id = params.split_group_id[1]
+  const split_group_id = params.split_group_id[0]
 
   const session = await getServerSession()
   const splits = await getUserSplitsById(session.user.id, split_group_id)
