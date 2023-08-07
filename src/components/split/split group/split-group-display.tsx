@@ -31,9 +31,9 @@ export default function SplitDisplay({ split_group, splits }: Props) {
         return (
           <Card key={group.id}>
             {/* Assuming you have a unique 'id' for each group */}
-            <Link href={`workouts/${group.id}`}>
+            <Link href={`workouts/split_group/${group.id}`}>
               <CardHeader>
-                <CardTitle>{group.name}</CardTitle>
+                <CardTitle className="hover:underline ">{group.name}</CardTitle>
               </CardHeader>
             </Link>
             <CardContent>

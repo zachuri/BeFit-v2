@@ -36,7 +36,7 @@ export default async function Split({
 }: {
   params: { split_group_id: string }
 }) {
-  const split_group_id = params.split_group_id[0]
+  const split_group_id = params.split_group_id[1]
 
   const session = await getServerSession()
   const splits = await getUserSplitsById(session.user.id, split_group_id)
