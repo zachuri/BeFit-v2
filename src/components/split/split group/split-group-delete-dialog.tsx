@@ -8,7 +8,6 @@ import { getBucketPath } from "@/lib/bucket-path"
 import { cn } from "@/lib/utils"
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
