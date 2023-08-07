@@ -19,11 +19,12 @@ import WeightCard from "./weight-card"
 
 export default async function Page() {
   const session = await getServerSession()
-  const weights = await getUserWeight(session?.user.id)
 
-  if (!session.user) {
+  if (!session) {
     redirect("/login")
   }
+
+  const weights = await getUserWeight(session?.user.id)
 
   return (
     <>

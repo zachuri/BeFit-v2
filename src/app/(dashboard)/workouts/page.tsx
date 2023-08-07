@@ -10,12 +10,12 @@ import { getUserGroupSplits, getUserSplits } from "../dashboard/actions"
 export default async function Page() {
   const session = await getServerSession()
 
-  const split_group = await getUserGroupSplits(session.user.id)
-  const splits = await getUserSplits(session.user.id)
-
-  if (!session.user.id) {
+  if (!session) {
     redirect("/login")
   }
+
+  const split_group = await getUserGroupSplits(session.user.id)
+  const splits = await getUserSplits(session.user.id)
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
