@@ -50,3 +50,43 @@ export default function LoginPage() {
     </div>
   )
 }
+
+// "use client"
+
+// import { useEffect } from "react"
+// import { useRouter } from "next/navigation"
+// import { useSessionContext } from "@supabase/auth-helpers-react"
+// import { Auth } from "@supabase/auth-ui-react"
+
+// import { getURL } from "@/lib/utils"
+
+// const App = () => {
+//   // const supabaseClient = createSupabaseBrowserClient()
+//   const { supabaseClient } = useSessionContext()
+//   const router = useRouter()
+//   const redirectUrl = "/dashboard"
+
+//   useEffect(() => {
+//     const checkSession = async () => {
+//       const { data } = await supabaseClient.auth.getSession()
+//       if (data.session) {
+//         void router.push(redirectUrl)
+//       }
+//       if (!data.session) {
+//         void router.push("/login")
+//       }
+//     }
+
+//     void checkSession()
+//   })
+
+//   return (
+//     <Auth
+//       supabaseClient={supabaseClient}
+//       providers={["github"]}
+//       redirectTo={`${getURL()}/login`}
+//     />
+//   )
+// }
+
+// export default App

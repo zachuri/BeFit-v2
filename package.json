@@ -29,6 +29,8 @@
     "@stripe/stripe-js": "^1.54.1",
     "@supabase/auth-helpers-nextjs": "^0.7.2",
     "@supabase/auth-helpers-react": "^0.4.0",
+    "@supabase/auth-ui-react": "^0.4.2",
+    "@supabase/supabase-js": "^2.32.0",
     "@tanstack/react-table": "^8.9.3",
     "@types/recharts": "^1.8.24",
     "@types/uuid": "^9.0.2",
