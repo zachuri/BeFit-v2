@@ -34,13 +34,15 @@ export function UserAuthForm({ className, type, ...props }: UserAuthFormProps) {
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false)
   const { supabaseClient } = useSessionContext()
   const router = useRouter()
-  const redirectUrl = "/dashboard"
 
   useEffect(() => {
     const checkSession = async () => {
       const { data } = await supabaseClient.auth.getSession()
       if (data.session) {
-        void router.push(redirectUrl)
+        void router.push("/dashboard")
+      }
+      if (!data.session) {
+        void router.push("/login")
       }
     }
 
