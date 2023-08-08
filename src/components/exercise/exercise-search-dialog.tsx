@@ -50,6 +50,11 @@ const ExerciseSearchDialog = () => {
     }
   }
 
+  // Call handleSearch on every change of searchQuery
+  useEffect(() => {
+    handleSearch()
+  }, [searchQuery])
+
   const handleExerciseSelect = (exercise: Exercises) => {
     // Check if the exercise is already in the selectedExercises list
     const isDuplicate = selectedExercises.some(
@@ -72,10 +77,11 @@ const ExerciseSearchDialog = () => {
     )
   }
 
-  // Call handleSearch on every change of searchQuery
-  useEffect(() => {
-    handleSearch()
-  }, [searchQuery])
+  const handleSubmit = () => {
+    // Make sure to check there are no duplicate exercises in exisiting split
+    // Submit and link this exercise to this split
+    return
+  }
 
   return (
     <Dialog>
@@ -162,7 +168,9 @@ const ExerciseSearchDialog = () => {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Submit</Button>
+          <Button onClick={handleSubmit} type="submit">
+            Submit
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
