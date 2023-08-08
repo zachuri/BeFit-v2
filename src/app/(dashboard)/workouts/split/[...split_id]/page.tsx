@@ -52,7 +52,7 @@ export default async function Split({
       <div className="flex flex-col justify-between gap-5">
         <div className="flex justify-between">
           <h2 className="text-3xl font-bold tracking-tight">{name}</h2>
-          <ExerciseSearchDialog />
+          <ExerciseSearchDialog split_id={split_id}/>
         </div>
         <div className="grid grid-cols-3">
           <Card>

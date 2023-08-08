@@ -31,6 +31,33 @@ export interface Database {
           }
         ]
       }
+      exercise: {
+        Row: {
+          created_at: string | null
+          exercise_id: string | null
+          id: string
+          split_ids: string[] | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          exercise_id?: string | null
+          id?: string
+          split_ids?: string[] | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          exercise_id?: string | null
+          id?: string
+          split_ids?: string[] | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       exercises: {
         Row: {
           category: Database["public"]["Enums"]["categorytype"]

@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { createSupabaseBrowserClient } from "@/utils/supabase-client"
 
 import { Database } from "@/types/supabase.db"
+import { useUser } from "@/hooks/useUser"
 import { Input } from "@/components/ui/input"
 
 import { Icons } from "../icons"
@@ -19,13 +21,22 @@ import {
   DialogTrigger,
 } from "../ui/dialog"
 import { ScrollArea } from "../ui/scroll-area"
+import { toast } from "../ui/use-toast"
 
 export type Exercises = Database["public"]["Tables"]["exercises"]["Row"]
 
-const ExerciseSearchDialog = () => {
+interface Props {
+  split_id: string
+}
+
+const ExerciseSearchDialog = ({ split_id }: Props) => {
+  const session = useUser()
+
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [exerciseList, setExerciseList] = useState<Exercises[]>([])
   const [selectedExercises, setSelectedExercises] = useState<Exercises[]>([])
+
+  const router = useRouter()
 
   // to be able to call rpc custom function for searching exercise
   const supabase = createSupabaseBrowserClient()
@@ -77,10 +88,50 @@ const ExerciseSearchDialog = () => {
     )
   }
 
-  const handleSubmit = () => {
-    // Make sure to check there are no duplicate exercises in exisiting split
-    // Submit and link this exercise to this split
-    return
+  async function handleSubmit() {
+    try {
+      await Promise.all(
+        selectedExercises.map(async (exercise) => {
+          const { data: existingExercise } = await supabase
+            .from("exercise")
+            .select("id, split_ids")
+            .eq("exercise_id", exercise.id)
+            .eq("user_id", session.user?.id)
+            .single()
+
+          if (existingExercise) {
+            const updatedSplitIds = existingExercise.split_ids
+              ? [...existingExercise.split_ids, split_id] // Replace split_id with the actual split ID
+              : [split_id] // Replace split_id with the actual split ID
+
+            await supabase
+              .from("exercise")
+              .update({ split_ids: updatedSplitIds })
+              .eq("id", existingExercise.id)
+          } else {
+            await supabase.from("exercise").insert({
+              exercise_id: exercise.id,
+              split_ids: [split_id], // Replace split_id with the actual split ID
+              user_id: session.user?.id,
+            })
+          }
+        })
+      )
+
+      router.refresh()
+
+      toast({
+        title: "Success",
+        description: "Exercises added to split.",
+      })
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: "Error",
+        description: "Failed to add exercises to split.",
+        variant: "destructive",
+      })
+    }
   }
 
   return (
