@@ -3,9 +3,11 @@ import { notFound } from "next/navigation"
 import { createSupabaseBrowserClient } from "@/utils/supabase-client"
 
 import { getServerSession } from "@/lib/session"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import ExerciseInfoDisplay from "@/components/exercise/exercise-info-display"
 import ExerciseSearchDialog from "@/components/exercise/exercise-search-dialog"
 import {
+  getExercisesForSplit,
+  getExercisesInfo,
   getSplitName,
   getUserSplitById,
 } from "@/app/(dashboard)/dashboard/actions"
@@ -42,6 +44,10 @@ export default async function Split({
   const session = await getServerSession()
   const split = await getUserSplitById(session.user.id, split_id)
   const name = await getSplitName(split_id)
+  const exercises = await getExercisesForSplit(session.user.id, split_id)
+
+  // add check for if null
+  const exerciseInfo = await getExercisesInfo(exercises as string[])
 
   if (!split) {
     notFound()
@@ -52,14 +58,9 @@ export default async function Split({
       <div className="flex flex-col justify-between gap-5">
         <div className="flex justify-between">
           <h2 className="text-3xl font-bold tracking-tight">{name}</h2>
-          <ExerciseSearchDialog split_id={split_id}/>
+          <ExerciseSearchDialog split_id={split_id} />
         </div>
-        <div className="grid grid-cols-3">
-          <Card>
-            <CardHeader>Exercise</CardHeader>
-          </Card>
-        </div>
-        {/* <ExerciseSearch /> */}
+        <ExerciseInfoDisplay exercises={exerciseInfo} />
       </div>
     </div>
   )

@@ -54,7 +54,7 @@ const ExerciseSearchDialog = ({ split_id }: Props) => {
       } else {
         // @ts-ignore
         setExerciseList(data)
-        console.log(data)
+        // console.log(data)
       }
     } catch (error) {
       console.error("Error fetching exercises:", error)

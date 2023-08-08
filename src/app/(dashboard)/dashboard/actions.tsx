@@ -1,10 +1,8 @@
 import { createSupabaseServerClient } from "@/utils/supabase-server"
 
-import { Database } from "@/types/supabase.db"
+import { Exercise, Exercises } from "@/types/exercise"
+import { Split, SplitGroup } from "@/types/split"
 import { Weight } from "@/types/weight"
-
-export type SplitGroup = Database["public"]["Tables"]["split_group"]["Row"]
-export type Split = Database["public"]["Tables"]["split"]["Row"]
 
 export async function getUserWeight(user_id: string): Promise<Weight[]> {
   const supabase = createSupabaseServerClient()
@@ -118,4 +116,37 @@ export async function getSplitName(id: string) {
     .single()
 
   return data?.name as string
+}
+
+export async function getExercisesForSplit(
+  user_id: string,
+  id: string
+): Promise<string[] | null> {
+  const supabase = createSupabaseServerClient()
+
+  const { data } = await supabase
+    .from("exercise")
+    .select("exercise_id")
+    .eq("user_id", user_id)
+    .contains("split_ids", [id])
+
+  const exerciseIds = data ? data.map((exercise) => exercise.exercise_id) : []
+
+  return exerciseIds as string[] | null
+}
+
+export async function getExercisesInfo(ids: string[]): Promise<Exercises[]> {
+  const supabase = createSupabaseServerClient()
+
+  const { data, error } = await supabase
+    .from("exercises")
+    .select("*")
+    .in("id", ids)
+
+  if (error) {
+    console.error("Error fetching exercises:", error.message)
+    throw error
+  }
+
+  return data as Exercises[]
 }
