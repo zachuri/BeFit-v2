@@ -7,7 +7,7 @@ Welcome to BeFit v2! This is an application designed to help users track their g
 BeFit v2 is built using the following technologies:
 
 - [Next.js](https://nextjs.org/) - A popular React framework for building server-rendered applications.
-- [Chakra UI](https://chakra-ui.com/) - A simple and modular component library for React.
+- [Shadcn UI](https://ui.shadcn.com/) - A simple and modular component library for React.
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for quickly building custom designs.
 - [Supabase](https://supabase.io/) - An open-source Firebase alternative that provides a PostgreSQL database with a RESTful API.
 - [PostgreSQL](https://www.postgresql.org/) - A powerful, open-source relational database management system.
@@ -60,3 +60,7 @@ Open your browser and navigate to http://localhost:3000 to see BeFit v2 in actio
 ## Contributions
 
 Contributions are welcome! If you find a bug or want to suggest an enhancement, please open an issue on the GitHub repository. Pull requests are also appreciated.
+
+## License
+
+BeFit v2 is open-source software licensed under the [MIT license](https://github.com/zachuri/befit-v2/blob/main/LICENSE.md)
