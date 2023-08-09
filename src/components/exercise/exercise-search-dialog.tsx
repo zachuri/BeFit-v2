@@ -32,6 +32,7 @@ interface Props {
 const ExerciseSearchDialog = ({ split_id }: Props) => {
   const session = useUser()
 
+  const [open, setOpen] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [exerciseList, setExerciseList] = useState<Exercises[]>([])
   const [selectedExercises, setSelectedExercises] = useState<Exercises[]>([])
@@ -89,6 +90,16 @@ const ExerciseSearchDialog = ({ split_id }: Props) => {
   }
 
   async function handleSubmit() {
+    console.log(selectedExercises.length)
+    if (selectedExercises.length === 0) {
+      setOpen(false)
+
+      return toast({
+        title: "Exercise not added to split",
+        description: "No exercise selected.",
+      })
+    }
+
     try {
       await Promise.all(
         selectedExercises.map(async (exercise) => {
@@ -119,14 +130,15 @@ const ExerciseSearchDialog = ({ split_id }: Props) => {
       )
 
       router.refresh()
+      setOpen(false)
 
-      toast({
+      return toast({
         title: "Success",
         description: "Exercises added to split.",
       })
     } catch (error) {
       console.error(error)
-      toast({
+      return toast({
         title: "Error",
         description: "Failed to add exercises to split.",
         variant: "destructive",
@@ -135,7 +147,7 @@ const ExerciseSearchDialog = ({ split_id }: Props) => {
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
           <Icons.add className="mr-2" />
