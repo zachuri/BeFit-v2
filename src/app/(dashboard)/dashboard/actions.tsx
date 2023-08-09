@@ -150,3 +150,20 @@ export async function getExercisesInfo(ids: string[]): Promise<Exercises[]> {
 
   return data as Exercises[]
 }
+
+export async function getExerciseInfo(id: string): Promise<Exercises> {
+  const supabase = createSupabaseServerClient()
+
+  const { data, error } = await supabase
+    .from("exercises")
+    .select("*")
+    .eq("id", id)
+    .single()
+
+  if (error) {
+    console.error("Error fetching exercises:", error.message)
+    throw error
+  }
+
+  return data as Exercises
+}

@@ -2,6 +2,7 @@
 
 import React from "react"
 import Image from "next/image"
+import Link from "next/link"
 import {
   Collapsible,
   CollapsibleContent,
@@ -10,6 +11,7 @@ import {
 
 import { Exercises } from "@/types/exercise"
 
+import { Button } from "../ui/button"
 import {
   Card,
   CardContent,
@@ -29,57 +31,24 @@ export default function ExerciseInfoDisplay({ exercises }: Props) {
         <Card key={exerciseIndex}>
           <CardHeader>
             <CardTitle className="text-lg">{exercise.name}</CardTitle>
-            <CardDescription className="capitalize">
-              {exercise.equipment}
-            </CardDescription>
+            {exercise.primary_muscles?.map((muscles, index) => (
+              <CardDescription key={index} className="capitalize">
+                {muscles}
+              </CardDescription>
+            ))}
+            {exercise.secondary_muscles &&
+              exercise.secondary_muscles.length > 0 && (
+                <>
+                  <CardDescription className="capitalize">
+                    {exercise.secondary_muscles.join(", ")}
+                  </CardDescription>
+                </>
+              )}
           </CardHeader>
           <CardContent>
-            <Collapsible>
-              <CollapsibleTrigger>More Info</CollapsibleTrigger>
-              <CollapsibleContent>
-                <CardTitle className="text-sm">Primary Muscles</CardTitle>
-                {exercise.primary_muscles?.map((muscles, index) => (
-                  <CardDescription key={index} className="capitalize">
-                    {muscles}
-                  </CardDescription>
-                ))}
-                {exercise.secondary_muscles &&
-                  exercise.secondary_muscles.length > 0 && (
-                    <>
-                      <CardTitle className="text-sm">
-                        Secondary Muscles
-                      </CardTitle>
-                      <CardDescription className="capitalize">
-                        {exercise.secondary_muscles.join(", ")}
-                      </CardDescription>
-                    </>
-                  )}
-                <CardTitle className="text-sm">Images</CardTitle>
-                <div className="flex flex-row">
-                  {exercise.images?.map((image, index) => (
-                    <Image
-                      key={index}
-                      src={`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${image}`}
-                      alt=""
-                      width={100}
-                      height={100}
-                    />
-                  ))}
-                </div>
-                {exercise.instructions && exercise.instructions.length > 0 && (
-                  <>
-                    <CardTitle className="text-sm">Instructions</CardTitle>
-                    <div className="flex flex-col space-y-5">
-                      {exercise.instructions.map((instruction, index) => (
-                        <CardDescription key={index} className="capitalize">
-                          {instruction}
-                        </CardDescription>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </CollapsibleContent>
-            </Collapsible>
+            <Link href={`/workouts/exercise_info/${exercise.id}`}>
+              <Button variant={"outline"}>More Info</Button>
+            </Link>
           </CardContent>
         </Card>
       ))}
