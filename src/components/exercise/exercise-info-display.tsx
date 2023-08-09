@@ -31,18 +31,23 @@ export default function ExerciseInfoDisplay({ exercises }: Props) {
         <Card key={exerciseIndex}>
           <CardHeader>
             <CardTitle className="text-lg">{exercise.name}</CardTitle>
-            {exercise.primary_muscles?.map((muscles, index) => (
-              <CardDescription key={index} className="capitalize">
-                {muscles}
-              </CardDescription>
-            ))}
+            <div className="flex flex-row items-center">
+              <CardTitle className="text-sm">Primary:</CardTitle>
+              {exercise.primary_muscles?.map((muscles, index) => (
+                <CardDescription key={index} className="capitalize">
+                  {muscles}
+                </CardDescription>
+              ))}
+            </div>
             {exercise.secondary_muscles &&
               exercise.secondary_muscles.length > 0 && (
-                <>
+                <div className="flex flex-row items-center">
+                  {/* Flex container */}
+                  <CardTitle className="text-sm">Secondary: </CardTitle>
                   <CardDescription className="capitalize">
                     {exercise.secondary_muscles.join(", ")}
                   </CardDescription>
-                </>
+                </div>
               )}
           </CardHeader>
           <CardContent>
