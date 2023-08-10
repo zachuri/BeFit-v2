@@ -28,17 +28,19 @@ export default async function Page() {
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
-      {/* <div className="flex flex-row items-center justify-between space-y-0">
-        <h2 className="text-3xl font-bold tracking-tight">Weight</h2>
-        <Icons.scale />
-      </div> */}
       <Suspense fallback={<WeightLoading />}>
-        <WeightLineGraph2
-          weights={weights}
-          height={400}
-          enableToolTip={true}
-          margin={{ left: -50, right: 15, top: 25 }}
-        />
+        {weights.length > 0 ? (
+          <WeightLineGraph2
+            weights={weights}
+            height={400}
+            enableToolTip={true}
+            margin={{ left: -50, right: 15, top: 25 }}
+          />
+        ) : (
+          <section className="flex h-[400px] items-center justify-center opacity-50">
+            Need more data to display graph
+          </section>
+        )}
         <WeightInputCard user_id={session.user.id} weight={weights[0]} />
         <Tabs defaultValue="table">
           <TabsList>

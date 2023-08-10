@@ -24,6 +24,7 @@ export default async function Page() {
     redirect("/login")
   }
 
+  // Array of weigths to display graph
   const weights = await getUserWeight(session?.user.id)
 
   return (

@@ -22,7 +22,8 @@ export default function WeightCard({
   const weights = mostRecentWeight
 
   const { date: today } = formatCreatedAt(new Date())
-  const mostRecentDate = weights
+
+  const mostRecentDate = weights && weights.length > 0
     ? formatCreatedAt(weights[0].created_at).date
     : null
 
