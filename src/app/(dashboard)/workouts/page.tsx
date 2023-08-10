@@ -1,7 +1,10 @@
 import React from "react"
+import Link from "next/link"
 import { redirect } from "next/navigation"
 
 import { getServerSession } from "@/lib/session"
+import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/icons"
 import SplitGroupDisplay from "@/components/split/split group/split-group-display"
 
 import SplitGroupDialog from "../../../components/split/split group/split-group-dialog"
@@ -19,6 +22,12 @@ export default async function Page() {
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
+      <Link href="/dashboard">
+        <Button variant={"secondary"}>
+          <Icons.chevronLeft size={20} />
+          Back
+        </Button>
+      </Link>
       <SplitGroupDialog user_id={session.user.id} />
       <SplitGroupDisplay split_group={split_group} splits={splits} />
     </div>

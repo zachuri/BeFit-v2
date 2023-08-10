@@ -1,10 +1,13 @@
 import React from "react"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { createSupabaseBrowserClient } from "@/utils/supabase-client"
 
 import { getServerSession } from "@/lib/session"
+import { Button } from "@/components/ui/button"
 import ExerciseInfoDisplay from "@/components/exercise/exercise-info-display"
 import ExerciseSearchDialog from "@/components/exercise/exercise-search-dialog"
+import { Icons } from "@/components/icons"
 import {
   getExercisesForSplit,
   getExercisesInfo,
@@ -56,6 +59,12 @@ export default async function Split({
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
       <div className="flex flex-col justify-between gap-5">
+        <Link href="/workouts" className="mb-5">
+          <Button variant={"secondary"}>
+            <Icons.chevronLeft size={20} />
+            Back
+          </Button>
+        </Link>
         <div className="flex justify-between">
           <h2 className="text-3xl font-bold tracking-tight">{name}</h2>
           <ExerciseSearchDialog split_id={split_id} />

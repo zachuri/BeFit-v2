@@ -1,7 +1,10 @@
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { createSupabaseBrowserClient } from "@/utils/supabase-client"
 
 import { getServerSession } from "@/lib/session"
+import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/icons"
 import { SplitGroupDeleteDialog } from "@/components/split/split group/split-group-delete-dialog"
 import SplitGroupUpdateDialog from "@/components/split/split group/split-group-update-dialog"
 import SplitAddDialog from "@/components/split/split-add-dialog"
@@ -51,6 +54,12 @@ export default async function SplitGroup({
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
+      <Link href="/workouts" className="mb-10">
+        <Button variant={"secondary"}>
+          <Icons.chevronLeft size={20} />
+          Back
+        </Button>
+      </Link>
       <div className="flex flex-row justify-between">
         <h2 className="text-3xl font-bold tracking-tight">{name}</h2>
         <div className="flex flex-row gap-3">
