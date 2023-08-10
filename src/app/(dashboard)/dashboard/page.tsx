@@ -34,7 +34,7 @@ export default async function Page() {
         <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
 
         {/* Navigation */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Suspense fallback={<CardSkeleton />}>
             <WeightCard mostRecentWeight={weights} />
           </Suspense>
@@ -65,7 +65,7 @@ export default async function Page() {
         </div>
 
         {/* Overview/ Recent Activities */}
-        <div className="grid gap-4 max-sm:hidden sm:block md:grid-cols-2 lg:grid-cols-7">
+        <div className="flex flex-col space-y-5 max-sm:hidden sm:block">
           <Card className="col-span-4">
             <CardHeader>
               <CardTitle>Overview</CardTitle>
