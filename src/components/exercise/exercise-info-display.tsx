@@ -26,12 +26,12 @@ interface Props {
 
 export default function ExerciseInfoDisplay({ exercises }: Props) {
   return (
-    <div className="grid grid-cols-2 gap-5">
+    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
       {exercises.map((exercise, exerciseIndex) => (
         <Card key={exerciseIndex}>
           <CardHeader>
             <CardTitle className="text-lg">{exercise.name}</CardTitle>
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center space-x-1">
               <CardTitle className="text-sm">Primary:</CardTitle>
               {exercise.primary_muscles?.map((muscles, index) => (
                 <CardDescription key={index} className="capitalize">
@@ -41,7 +41,7 @@ export default function ExerciseInfoDisplay({ exercises }: Props) {
             </div>
             {exercise.secondary_muscles &&
               exercise.secondary_muscles.length > 0 && (
-                <div className="flex flex-row items-center">
+                <div className="flex flex-row items-center space-x-1">
                   {/* Flex container */}
                   <CardTitle className="text-sm">Secondary: </CardTitle>
                   <CardDescription className="capitalize">
