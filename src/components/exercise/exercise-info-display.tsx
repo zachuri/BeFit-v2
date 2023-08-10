@@ -26,37 +26,46 @@ interface Props {
 
 export default function ExerciseInfoDisplay({ exercises }: Props) {
   return (
-    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-      {exercises.map((exercise, exerciseIndex) => (
-        <Card key={exerciseIndex}>
-          <CardHeader>
-            <CardTitle className="text-lg">{exercise.name}</CardTitle>
-            <div className="flex flex-row items-center space-x-1">
-              <CardTitle className="text-sm">Primary:</CardTitle>
-              {exercise.primary_muscles?.map((muscles, index) => (
-                <CardDescription key={index} className="capitalize">
-                  {muscles}
-                </CardDescription>
-              ))}
-            </div>
-            {exercise.secondary_muscles &&
-              exercise.secondary_muscles.length > 0 && (
+    <>
+      {exercises.length > 0 ? (
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {exercises.map((exercise, exerciseIndex) => (
+            <Card key={exerciseIndex}>
+              <CardHeader>
+                <CardTitle className="text-lg">{exercise.name}</CardTitle>
                 <div className="flex flex-row items-center space-x-1">
-                  {/* Flex container */}
-                  <CardTitle className="text-sm">Secondary: </CardTitle>
-                  <CardDescription className="capitalize">
-                    {exercise.secondary_muscles.join(", ")}
-                  </CardDescription>
+                  <CardTitle className="text-sm">Primary:</CardTitle>
+                  {exercise.primary_muscles?.map((muscles, index) => (
+                    <CardDescription key={index} className="capitalize">
+                      {muscles}
+                    </CardDescription>
+                  ))}
                 </div>
-              )}
-          </CardHeader>
-          <CardContent>
-            <Link href={`/workouts/exercise_info/${exercise.id}`}>
-              <Button variant={"outline"}>More Info</Button>
-            </Link>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+                {exercise.secondary_muscles &&
+                  exercise.secondary_muscles.length > 0 && (
+                    <div className="flex flex-row items-center space-x-1">
+                      {/* Flex container */}
+                      <CardTitle className="text-sm">Secondary: </CardTitle>
+                      <CardDescription className="capitalize">
+                        {exercise.secondary_muscles.join(", ")}
+                      </CardDescription>
+                    </div>
+                  )}
+              </CardHeader>
+              <CardContent>
+                <Link href={`/workouts/exercise_info/${exercise.id}`}>
+                  <Button variant={"outline"}>More Info</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <CardHeader>
+          <CardTitle>No exercises added!</CardTitle>
+          <CardDescription>Please add exercises to split!</CardDescription>
+        </CardHeader>
+      )}
+    </>
   )
 }
