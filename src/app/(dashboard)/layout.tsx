@@ -39,7 +39,7 @@ export default async function DashboardLayout({
           }}
         />
       </Navbar>
-      <div className="sm:container sm:flex-1">
+      <div className="grow sm:container sm:flex-1">
         <main className="relative flex w-full flex-col overflow-hidden">
           {children}
         </main>
