@@ -4,7 +4,6 @@ import React from "react"
 import Link from "next/link"
 
 import { Split, SplitGroup } from "@/types/split"
-import { Database } from "@/types/supabase.db"
 import {
   Card,
   CardContent,
@@ -20,17 +19,15 @@ interface Props {
 }
 
 export default function SplitDisplay({ split_group, splits }: Props) {
-  return (
-    <>
-      {split_group.map((group) => {
-        // Filter the splits associated with the current group
+  const content =
+    split_group.length > 0 ? (
+      split_group.map((group) => {
         const groupSplits = splits.filter(
           (split) => split.split_group_id === group.id
         )
 
         return (
           <Card key={group.id}>
-            {/* Assuming you have a unique 'id' for each group */}
             <Link href={`workouts/split_group/${group.id}`}>
               <CardHeader>
                 <CardTitle className="hover:underline ">{group.name}</CardTitle>
@@ -41,7 +38,15 @@ export default function SplitDisplay({ split_group, splits }: Props) {
             </CardContent>
           </Card>
         )
-      })}
-    </>
-  )
+      })
+    ) : (
+      <CardHeader>
+        <CardTitle>No Split Added</CardTitle>
+        <CardDescription>
+          Please create a split that you would like to organize.
+        </CardDescription>
+      </CardHeader>
+    )
+
+  return <>{content}</>
 }
