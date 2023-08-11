@@ -42,7 +42,7 @@ export function LoadingSplitGroupCard() {
   return (
     <Card>
       <CardHeader className="gap-2">
-        <Skeleton className="h-10 w-1/5" />
+        <Skeleton className="h-15 w-1/5" />
       </CardHeader>
       <CardContent>
         <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
