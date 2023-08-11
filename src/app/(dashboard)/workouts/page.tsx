@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Suspense } from "react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 
@@ -9,6 +9,7 @@ import SplitGroupDisplay from "@/components/split/split group/split-group-displa
 
 import SplitGroupDialog from "../../../components/split/split group/split-group-dialog"
 import { getUserGroupSplits, getUserSplits } from "../dashboard/actions"
+import { LoadingSplitGroupCard } from "./loading"
 
 export default async function Page() {
   const session = await getServerSession()
@@ -29,7 +30,9 @@ export default async function Page() {
         </Button>
       </Link>
       <SplitGroupDialog user_id={session.user.id} />
-      <SplitGroupDisplay split_group={split_group} splits={splits} />
+      <Suspense fallback={<LoadingSplitGroupCard />}>
+        <SplitGroupDisplay split_group={split_group} splits={splits} />
+      </Suspense>
     </div>
   )
 }
