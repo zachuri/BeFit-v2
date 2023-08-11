@@ -10,10 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { CardSkeleton } from "@/components/card-skeleton"
 import WeightCardSuspense from "@/components/dashboard/weight-card-suspense"
 import { Overview } from "@/components/overview"
 import { RecentActivity } from "@/components/recent-activity"
+
+import { CardSkeleton } from "./loading"
 
 export default async function Page() {
   const session = await getServerSession()

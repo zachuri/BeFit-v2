@@ -23,9 +23,10 @@ export default function WeightCard({
 
   const { date: today } = formatCreatedAt(new Date())
 
-  const mostRecentDate = weights && weights.length > 0
-    ? formatCreatedAt(weights[0].created_at).date
-    : null
+  const mostRecentDate =
+    weights && weights.length > 0
+      ? formatCreatedAt(weights[0].created_at).date
+      : null
 
   return (
     <Card>
@@ -34,13 +35,15 @@ export default function WeightCard({
           <CardTitle className="text-sm font-medium">Weight</CardTitle>
           <Icons.scale className={"h-4 w-4"} />
         </CardHeader>
-        <CardContent>
+        <CardContent className="h-[75px]">
           <div className="relative flex flex-row">
             <div className="w-full">
               <>
                 {today !== mostRecentDate ? (
                   <>
-                    <h1 className="text-2xl font-bold text-red-300">- - - lbs</h1>
+                    <h1 className="text-2xl font-bold text-red-300">
+                      - - - lbs
+                    </h1>
                     <div className="overflow-hidden">
                       <p className="text-xs text-muted-foreground">
                         Add today&apos;s weight
