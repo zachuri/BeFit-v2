@@ -5,9 +5,7 @@ import { getServerSession } from "@/lib/session"
 import WeightGraphSuspense from "@/components/weight/suspense/weight-graph-suspense"
 import WeightInputSuspense from "@/components/weight/suspense/weight-input-suspense"
 import WeightTabsSuspense from "@/components/weight/suspense/weight-tabs-suspense"
-import { getUserWeights } from "@/app/actions"
 
-import { CardSkeleton } from "../dashboard/loading"
 import {
   LoadingWeightGraph,
   LoadingWeightInput,
