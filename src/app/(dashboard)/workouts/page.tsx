@@ -8,7 +8,7 @@ import { Icons } from "@/components/icons"
 import SplitGroupDisplay from "@/components/split/split group/split-group-display"
 
 import SplitGroupDialog from "../../../components/split/split group/split-group-dialog"
-import { getUserGroupSplits, getUserSplits } from "../dashboard/actions"
+import { getUserGroupSplits, getUserSplits } from "../../actions"
 import { LoadingSplitGroupCard } from "./loading"
 
 export default async function Page() {

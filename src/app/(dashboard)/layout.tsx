@@ -7,7 +7,8 @@ import { Navbar } from "@/components/navbar"
 import { SiteFooter } from "@/components/site-footer"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { UserAccountNav } from "@/components/user-account-nav"
-import { getUserProfile } from './dashboard/actions'
+
+import { getUserProfile } from "../actions"
 
 interface DashboardLayoutProps {
   children?: React.ReactNode
@@ -20,7 +21,7 @@ export default async function DashboardLayout({
 
   if (!session) redirect("/login")
 
-  const profile = await getUserProfile(session.user.id);
+  const profile = await getUserProfile(session.user.id)
 
   return (
     <div className="flex min-h-screen flex-col space-y-6">

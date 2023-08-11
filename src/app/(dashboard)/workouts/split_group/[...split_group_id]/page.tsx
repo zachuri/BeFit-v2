@@ -10,10 +10,7 @@ import { SplitGroupDeleteDialog } from "@/components/split/split group/split-gro
 import SplitGroupUpdateDialog from "@/components/split/split group/split-group-update-dialog"
 import SplitAddDialog from "@/components/split/split-add-dialog"
 import SplitCardsSuspense from "@/components/split/split-cards-suspense"
-import {
-  getSplitGroupName,
-  getUserSplitsById,
-} from "@/app/(dashboard)/dashboard/actions"
+import { getSplitGroupName, getUserSplitsById } from "@/app/actions"
 
 import {
   LoadingSplitGroupCard,

@@ -15,9 +15,6 @@ import WeightCardSuspense from "@/components/dashboard/weight-card-suspense"
 import { Overview } from "@/components/overview"
 import { RecentActivity } from "@/components/recent-activity"
 
-import WeightCard from "../../../components/dashboard/weight-card"
-import { getUserWeight } from "./actions"
-
 export default async function Page() {
   const session = await getServerSession()
 

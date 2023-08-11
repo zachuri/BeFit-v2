@@ -14,7 +14,7 @@ import PhotoContent from "@/components/weight/photos/photo-content"
 import { columns } from "@/components/weight/table/columns"
 import { DataTable } from "@/components/weight/table/data-table"
 
-import { getUserWeight } from "../dashboard/actions"
+import { getUserWeight } from "../../actions"
 import WeightLoading from "./loading"
 
 export default async function Page() {
