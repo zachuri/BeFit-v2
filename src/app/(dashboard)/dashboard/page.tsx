@@ -11,11 +11,12 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { CardSkeleton } from "@/components/card-skeleton"
+import WeightCardSuspense from "@/components/dashboard/weight-card-suspense"
 import { Overview } from "@/components/overview"
 import { RecentActivity } from "@/components/recent-activity"
 
+import WeightCard from "../../../components/dashboard/weight-card"
 import { getUserWeight } from "./actions"
-import WeightCard from "./weight-card"
 
 export default async function Page() {
   const session = await getServerSession()
@@ -23,9 +24,6 @@ export default async function Page() {
   if (!session) {
     redirect("/login")
   }
-
-  // Array of weigths to display graph
-  const weights = await getUserWeight(session?.user.id)
 
   return (
     <>
@@ -36,7 +34,7 @@ export default async function Page() {
         {/* Navigation */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Suspense fallback={<CardSkeleton />}>
-            <WeightCard mostRecentWeight={weights} />
+            <WeightCardSuspense user_id={session.user.id} />
           </Suspense>
           <Card>
             <Link href={"/Diet"}>
