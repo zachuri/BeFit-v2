@@ -2,7 +2,6 @@ import "@/styles/globals.css"
 import { Metadata } from "next"
 import SupabaseProvider from "@/providers/supbase-provider"
 import UserProvider from "@/providers/user-provider"
-import { createSupabaseServerClient } from "@/utils/supabase-server"
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs"
 
 import { siteConfig } from "@/config/site"
