@@ -1,9 +1,6 @@
 import { getServerSession } from "@/lib/session"
-import { useUser } from "@/hooks/useUser"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-import { CardSkeleton } from "@/components/card-skeleton"
 import { Icons } from "@/components/icons"
 
 import { getUserProfile } from "./getProfileData"
@@ -54,7 +51,11 @@ export default async function Page() {
             <CardHeader>
               <CardTitle>Website</CardTitle>
             </CardHeader>
-            <CardContent>{profile?.website ? profile.website : "Please go in settings and add a website"}</CardContent>
+            <CardContent>
+              {profile?.website
+                ? profile.website
+                : "Please go in settings and add a website"}
+            </CardContent>
           </Card>
         </CardContent>
       </Card>
