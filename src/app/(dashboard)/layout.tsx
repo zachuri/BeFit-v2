@@ -7,6 +7,7 @@ import { Navbar } from "@/components/navbar"
 import { SiteFooter } from "@/components/site-footer"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { UserAccountNav } from "@/components/user-account-nav"
+import { getUserProfile } from './dashboard/actions'
 
 interface DashboardLayoutProps {
   children?: React.ReactNode
@@ -15,16 +16,11 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const supabase = createSupabaseServerClient()
   const session = await getServerSession()
 
   if (!session) redirect("/login")
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", session.user.id)
-    .single()
+  const profile = await getUserProfile(session.user.id);
 
   return (
     <div className="flex min-h-screen flex-col space-y-6">
