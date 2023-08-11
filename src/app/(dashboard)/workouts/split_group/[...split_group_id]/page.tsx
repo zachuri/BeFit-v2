@@ -9,7 +9,7 @@ import { Icons } from "@/components/icons"
 import { SplitGroupDeleteDialog } from "@/components/split/split group/split-group-delete-dialog"
 import SplitGroupUpdateDialog from "@/components/split/split group/split-group-update-dialog"
 import SplitAddDialog from "@/components/split/split-add-dialog"
-import SplitCardsDisplay from "@/components/split/split-cards-display"
+import SplitCardsSuspense from "@/components/split/split-cards-suspense"
 import {
   getSplitGroupName,
   getUserSplitsById,
@@ -86,7 +86,7 @@ export default async function SplitGroup({
         </div>
       </div>
       <Suspense fallback={<LoadingSplitGroupPageCard />}>
-        <SplitCardsDisplay
+        <SplitCardsSuspense
           user_id={session.user.id}
           group_id={split_group_id}
         />

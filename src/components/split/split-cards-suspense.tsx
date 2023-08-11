@@ -9,7 +9,9 @@ interface Props {
   group_id: string
 }
 
-export default async function SplitCardsDisplay({ user_id, group_id }: Props) {
+// This will load display once the data is loaded
+// if not loaded will call the suspense
+export default async function SplitCardsSuspense({ user_id, group_id }: Props) {
   const splits = await getUserSplitsById(user_id, group_id)
   return (
     <div>
