@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { CardSkeleton } from "@/components/card-skeleton"
 import { Icons } from "@/components/icons"
 
-function Title() {
+export function Title() {
   return (
     <>
       <Button variant={"secondary"}>
@@ -14,10 +14,25 @@ function Title() {
         Back
       </Button>
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Workouts</h2>
-        <Button>
-          <Icons.add />
-        </Button>
+        <Skeleton className="h-10 w-1/5" />
+        <div className="flex flex-row gap-5">
+          <Skeleton className="h-10 w-10" />
+          <Skeleton className="h-10 w-10" />
+          <Skeleton className="h-10 w-10" />
+        </div>
+      </div>
+    </>
+  )
+}
+export function LoadingSplitGroupPageCard() {
+  return (
+    <>
+      <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <LoadingSplitCard />
+        <LoadingSplitCard />
+        <LoadingSplitCard />
+        <LoadingSplitCard />
+        <LoadingSplitCard />
       </div>
     </>
   )
@@ -53,13 +68,11 @@ export function LoadingSplitCard() {
   )
 }
 
-export default function LoadingWorkouts() {
+export default function SplitGroupLoading() {
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
       <Title />
-      <LoadingSplitGroupCard />
-      <LoadingSplitGroupCard />
-      <LoadingSplitGroupCard />
+      <LoadingSplitGroupPageCard />
     </div>
   )
 }

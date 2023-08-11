@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { createSupabaseBrowserClient } from "@/utils/supabase-client"
@@ -8,12 +9,17 @@ import { Icons } from "@/components/icons"
 import { SplitGroupDeleteDialog } from "@/components/split/split group/split-group-delete-dialog"
 import SplitGroupUpdateDialog from "@/components/split/split group/split-group-update-dialog"
 import SplitAddDialog from "@/components/split/split-add-dialog"
-import SplitCards from "@/components/split/split-cards"
-
+import SplitCardsDisplay from "@/components/split/split-cards-display"
 import {
   getSplitGroupName,
   getUserSplitsById,
-} from "../../../dashboard/actions"
+} from "@/app/(dashboard)/dashboard/actions"
+
+import {
+  LoadingSplitGroupCard,
+  LoadingSplitGroupPageCard,
+  Title,
+} from "./loading"
 
 export async function generateStaticParams() {
   const supabase = createSupabaseBrowserClient()
@@ -79,7 +85,12 @@ export default async function SplitGroup({
           />
         </div>
       </div>
-      <SplitCards splits={splits} />
+      <Suspense fallback={<LoadingSplitGroupPageCard />}>
+        <SplitCardsDisplay
+          user_id={session.user.id}
+          group_id={split_group_id}
+        />
+      </Suspense>
     </div>
   )
 }
