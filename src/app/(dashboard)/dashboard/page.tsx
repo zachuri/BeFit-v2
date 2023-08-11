@@ -32,8 +32,6 @@ export default async function Page() {
         {/* Navigation */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Suspense fallback={<CardSkeleton />}>
-            {/* @ts-expect-error */}
-            {/* @ts-ignore */}
             <WeightCardSuspense user_id={session.user.id} />
           </Suspense>
           <Card>
