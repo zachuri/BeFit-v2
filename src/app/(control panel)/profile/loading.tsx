@@ -1,6 +1,6 @@
-import { CardSkeleton } from "@/components/card-skeleton"
 import { ControlPanelHeader } from "@/components/header"
 import { ControlPanelShell } from "@/components/shell"
+import { CardSkeleton } from "@/app/(dashboard)/dashboard/loading"
 
 export default function ProfileLoading() {
   return (

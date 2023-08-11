@@ -1,4 +1,3 @@
-import { isUint8ClampedArray } from "util/types"
 import { redirect } from "next/navigation"
 
 import { getServerSession } from "@/lib/session"

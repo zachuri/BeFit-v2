@@ -2,7 +2,7 @@ import { getServerSession } from "@/lib/session"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/icons"
-import { getUserProfile } from "@/app/(dashboard)/dashboard/actions"
+import { getUserProfile } from '@/app/actions'
 
 export default async function Page() {
   const session = await getServerSession()
