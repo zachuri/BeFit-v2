@@ -1,6 +1,6 @@
 import React from "react"
 
-import { getUserWeight, getUserWeights } from "@/app/actions"
+import { getUserWeights } from "@/app/actions"
 
 import WeightCard from "./weight-card"
 
@@ -12,5 +12,7 @@ export default async function WeightCardSuspense({
   // Array of weigths to display graph
   const weights = await getUserWeights(user_id)
 
-  return <WeightCard mostRecentWeight={weights} />
+  return (
+    <WeightCard mostRecentWeight={weights} />
+  )
 }

@@ -1,4 +1,4 @@
-import React, { Suspense } from "react"
+import { Suspense } from "react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 
@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import WeightCardSuspense from "@/components/dashboard/WeightCardSuspense"
+import WeightCardSuspense from "@/components/dashboard/weight-card-suspense"
 import { Overview } from "@/components/overview"
 import { RecentActivity } from "@/components/recent-activity"
 
