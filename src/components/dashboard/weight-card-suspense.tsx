@@ -12,7 +12,6 @@ export default async function WeightCardSuspense({
   // Array of weigths to display graph
   const weights = await getUserWeights(user_id)
 
-  return (
-    <WeightCard mostRecentWeight={weights} />
-  )
+  // @ts-ignore
+  return <WeightCard mostRecentWeight={weights} />
 }
