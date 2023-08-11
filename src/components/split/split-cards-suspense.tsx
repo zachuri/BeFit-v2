@@ -1,6 +1,6 @@
 import React from "react"
 
-import { getUserSplitsById } from "@/app/(dashboard)/dashboard/actions"
+import { getUserSplitsById } from "@/app/actions"
 
 import SplitCards from "./split-cards"
 

@@ -22,8 +22,24 @@ export const getUserProfile = async (user_id: string): Promise<Profile> => {
   return data as Profile
 }
 
+export const getUserWeight = async (user_id: string): Promise<Weight> => {
+  const supabase = createSupabaseServerClient();
 
-export const getUserWeight = async (user_id: string): Promise<Weight[]> => {
+  const { data, error } = await supabase
+    .from("weight")
+    .select("*")
+    .eq("user_id", user_id)
+    .order("created_at", { ascending: false })
+    .single()
+
+  if (error) {
+    console.log(error);
+  }
+
+  return data as Weight;
+};
+
+export const getUserWeights = async (user_id: string): Promise<Weight[]> => {
   const supabase = createSupabaseServerClient();
 
   const { data, error } = await supabase

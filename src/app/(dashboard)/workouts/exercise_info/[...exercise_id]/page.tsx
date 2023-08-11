@@ -2,7 +2,7 @@ import React from "react"
 import { notFound } from "next/navigation"
 
 import ExerciseSingleDisplay from "@/components/exercise/exercise-single-display"
-import { getExerciseInfo } from "@/app/(dashboard)/dashboard/actions"
+import { getExerciseInfo } from "@/app/actions"
 
 export default async function Exercise({
   params,

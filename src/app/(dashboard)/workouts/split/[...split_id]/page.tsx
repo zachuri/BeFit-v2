@@ -13,7 +13,7 @@ import {
   getExercisesInfo,
   getSplitName,
   getUserSplitById,
-} from "@/app/(dashboard)/dashboard/actions"
+} from "@/app/actions"
 
 export async function generateStaticParams() {
   const supabase = createSupabaseBrowserClient()

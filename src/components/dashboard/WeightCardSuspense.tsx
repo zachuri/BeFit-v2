@@ -1,8 +1,7 @@
 import React from "react"
 
-import { getUserWeight, getUserWeights } from "@/app/actions"
-
 import WeightCard from "./weight-card"
+import { getUserWeights } from '@/app/actions'
 
 export default async function WeightCardSuspense({
   user_id,

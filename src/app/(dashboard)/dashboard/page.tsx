@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import WeightCardSuspense from "@/components/dashboard/weight-card-suspense"
+import WeightCardSuspense from "@/components/dashboard/WeightCardSuspense"
 import { Overview } from "@/components/overview"
 import { RecentActivity } from "@/components/recent-activity"
 
