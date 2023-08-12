@@ -24,7 +24,7 @@ export const getUserProfile = async (user_id: string): Promise<Profile> => {
 
 export const getUserWeight = async (
   user_id: string
-): Promise<Weight | null> => {
+): Promise<Weight> => {
   const supabase = createSupabaseServerClient()
 
   const { data, error } = await supabase

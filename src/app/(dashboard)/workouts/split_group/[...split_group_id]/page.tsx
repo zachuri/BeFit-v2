@@ -83,6 +83,7 @@ export default async function SplitGroup({
         </div>
       </div>
       <Suspense fallback={<LoadingSplitGroupPageCard />}>
+        {/* @ts-ignore */}
         <SplitCardsSuspense
           user_id={session.user.id}
           group_id={split_group_id}

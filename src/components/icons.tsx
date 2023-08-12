@@ -20,12 +20,13 @@ import {
   Trash,
   Twitter,
   User,
+  // @ts-ignore
   type Icon as LucideIcon,
 } from "lucide-react"
 
 export type Icon = LucideIcon
 
-export const Icons = {
+export const Icons: Record<string, Icon> = {
   arrowUpDown: ArrowUpDown,
   trash: Trash,
   ellipsis: MoreVertical,

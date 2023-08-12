@@ -16,7 +16,7 @@ import { WeightDialog } from "./weight-dialog"
 
 interface Props {
   user_id: string
-  weight: Weight | null
+  weight: Weight
 }
 
 export const WeightInputCard = ({ user_id, weight }: Props) => {

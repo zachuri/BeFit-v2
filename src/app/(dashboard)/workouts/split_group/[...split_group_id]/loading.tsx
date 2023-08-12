@@ -3,7 +3,6 @@ import React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { CardSkeleton } from "@/components/card-skeleton"
 import { Icons } from "@/components/icons"
 
 export function Title() {
