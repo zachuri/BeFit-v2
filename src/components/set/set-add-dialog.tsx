@@ -13,7 +13,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Icons } from "@/components/icons"
-import SetAddForm from './set-add-form'
+
+import SetAddForm from "./set-add-form"
 
 interface Props {
   // user_id: string
@@ -30,12 +31,12 @@ export default function SplitAddDialog({ exercise_id }: Props) {
           <DialogTrigger asChild>
             <Button>
               <Icons.add className="mr-2" />
-              Add Exercise
+              Add Set
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Add a split to a group</DialogTitle>
+              <DialogTitle>Add a set to current exercise</DialogTitle>
               <DialogDescription>
                 Click submit when you&apos;re done.
               </DialogDescription>
@@ -43,9 +44,9 @@ export default function SplitAddDialog({ exercise_id }: Props) {
             <div className="grid gap-4 py-4">
               <div className="grid items-center gap-4">
                 <SetAddForm
-                  // user_id={user_id}
-                  // split_group_id={split_group_id}
-                  // setOpen={setOpen}
+                // user_id={user_id}
+                // split_group_id={split_group_id}
+                // setOpen={setOpen}
                 />
               </div>
             </div>
