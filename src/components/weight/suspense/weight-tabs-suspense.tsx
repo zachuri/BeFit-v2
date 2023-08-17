@@ -2,7 +2,7 @@ import React from "react"
 
 import { getUserWeights } from "@/app/actions"
 
-import WeigthTabsDisplay from "../table/weight-tabs-display"
+import WeightTabsDisplay from "../table/weight-tabs-display"
 
 interface Props {
   user_id: string
@@ -11,5 +11,5 @@ interface Props {
 export default async function WeightTabsSuspense({ user_id }: Props) {
   const weights = await getUserWeights(user_id)
 
-  return <WeigthTabsDisplay weights={weights} />
+  return <WeightTabsDisplay weights={weights} />
 }

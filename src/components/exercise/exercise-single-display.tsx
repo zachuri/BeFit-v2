@@ -15,6 +15,7 @@ export default function ExerciseSingleDisplay({ exercise }: Props) {
   return (
     <Card>
       <CardHeader>
+        <CardTitle>{exercise.name}</CardTitle>
         <div className="flex flex-row">
           {exercise.images?.map((image, index) => (
             <Image

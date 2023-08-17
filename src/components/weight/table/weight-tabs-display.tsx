@@ -11,7 +11,7 @@ interface Props {
   weights: Weight[]
 }
 
-export default function WeigthTabsDisplay({ weights }: Props) {
+export default function WeightTabsDisplay({ weights }: Props) {
   return (
     <>
       <Tabs defaultValue="table">

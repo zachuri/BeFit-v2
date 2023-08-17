@@ -358,6 +358,33 @@ export interface Database {
         }
         Relationships: []
       }
+      workout_sets: {
+        Row: {
+          created_at: string
+          exercise_id: string | null
+          id: string
+          reps: number | null
+          user_id: string | null
+          weight: number | null
+        }
+        Insert: {
+          created_at?: string
+          exercise_id?: string | null
+          id?: string
+          reps?: number | null
+          user_id?: string | null
+          weight?: number | null
+        }
+        Update: {
+          created_at?: string
+          exercise_id?: string | null
+          id?: string
+          reps?: number | null
+          user_id?: string | null
+          weight?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

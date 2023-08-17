@@ -69,7 +69,7 @@ export default async function Split({
           <h2 className="text-3xl font-bold tracking-tight">{name}</h2>
           <ExerciseSearchDialog split_id={split_id} />
         </div>
-        <ExerciseInfoDisplay exercises={exerciseInfo} />
+        <ExerciseInfoDisplay split_id={split_id} exercises={exerciseInfo} />
       </div>
     </div>
   )
