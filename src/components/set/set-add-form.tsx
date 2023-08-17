@@ -28,11 +28,11 @@ type FormData = z.infer<typeof setSchema>
 
 interface Props {
   exercise_id: string
-  user_id: string
+  // user_id: string
   setOpen: (open: boolean) => void
 }
 
-export default function SetAddForm({ exercise_id, user_id, setOpen }: Props) {
+export default function SetAddForm({ exercise_id, setOpen }: Props) {
   const router = useRouter()
   const user = useUser()
 
@@ -42,7 +42,7 @@ export default function SetAddForm({ exercise_id, user_id, setOpen }: Props) {
       exercise_id: exercise_id,
       reps: 0,
       weight: 0,
-      user_id: user_id,
+      user_id: user.user?.id,
     },
   })
 

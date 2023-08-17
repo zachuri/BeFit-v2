@@ -43,11 +43,7 @@ export default function SplitAddDialog({ exercise_id }: Props) {
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid items-center gap-4">
-                <SetAddForm
-                // user_id={user_id}
-                // split_group_id={split_group_id}
-                // setOpen={setOpen}
-                />
+                <SetAddForm exercise_id={exercise_id} setOpen={setOpen} />
               </div>
             </div>
           </DialogContent>
