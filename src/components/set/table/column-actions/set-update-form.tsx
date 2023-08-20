@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useSessionContext } from "@supabase/auth-helpers-react"
 import { useForm } from "react-hook-form"
-import { v4 as uuidv4 } from "uuid"
 import * as z from "zod"
 
+import { WorkoutSets } from "@/types/workout_sets"
 import { setSchema } from "@/lib/validations/set"
 import { useUser } from "@/hooks/useUser"
 import { Button } from "@/components/ui/button"
@@ -27,12 +27,11 @@ import { toast } from "@/components/ui/use-toast"
 type FormData = z.infer<typeof setSchema>
 
 interface Props {
-  exercise_id: string
-  // user_id: string
+  set: WorkoutSets
   setOpen: (open: boolean) => void
 }
 
-export default function SetAddForm({ exercise_id, setOpen }: Props) {
+export default function SetUpdateForm({ set, setOpen }: Props) {
   const { supabaseClient } = useSessionContext()
 
   const router = useRouter()
@@ -41,21 +40,27 @@ export default function SetAddForm({ exercise_id, setOpen }: Props) {
   const form = useForm<FormData>({
     resolver: zodResolver(setSchema),
     defaultValues: {
-      exercise_id: exercise_id,
-      reps: 0,
-      weight: 0,
+      exercise_id: set.exercise_id || "",
+      reps: set.reps || 0,
+      weight: set.weight || 0,
     },
   })
 
   async function onSubmit(data: FormData) {
+    // need to implement
     try {
-      const { error } = await supabaseClient.from("workout_sets").insert([
-        {
-          exercise_id: exercise_id,
-          weight: data.weight,
-          reps: data.reps,
-        },
-      ])
+      const { error } = await supabaseClient
+        .from("workout_sets")
+        .update([
+          {
+            exercise_id: data.exercise_id,
+            weight: data.weight,
+            reps: data.reps,
+          },
+        ])
+        .eq("id", set.id)
+        .eq("user_id", user.user?.id)
+        .select()
 
       if (error) {
         throw error

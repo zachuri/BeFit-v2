@@ -31,6 +31,8 @@ import { Icons } from "@/components/icons"
 import { WeightDeleteDialog } from "@/components/weight/table/column-actions/weight-delete-dialog"
 import { WeightUpdateForm } from "@/components/weight/table/column-actions/weight-update-form"
 
+import SetUpdateForm from "./column-actions/set-update-form"
+
 export const columns: ColumnDef<WorkoutSets>[] = [
   {
     id: "select",
@@ -81,6 +83,80 @@ export const columns: ColumnDef<WorkoutSets>[] = [
         <>
           {date}, {time}
         </>
+      )
+    },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [open, setOpen] = useState(false) // Stops the dialog from clsoing
+
+      const handleClick = (event: { preventDefault: () => void }) => {
+        event.preventDefault() // Prevents the default behavior of the button click
+        setOpen(true) // Opens the delete dialog
+      }
+
+      const set = row.original
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+            {/* Copy action */}
+            <DropdownMenuItem
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  set.weight !== null ? set.weight.toString() : ""
+                )
+              }
+            >
+              Copy
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+
+            {/* Update Action: Menu Item passed in dialog */}
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DropdownMenuItem
+                onSelect={(event) => {
+                  event.preventDefault()
+                }}
+              >
+                <DialogTrigger asChild>
+                  <button onClick={handleClick}>Update</button>
+                </DialogTrigger>
+              </DropdownMenuItem>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Add weight</DialogTitle>
+                  <DialogDescription>
+                    Click save when you&apos;re done.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid items-center gap-4">
+                    <SetUpdateForm set={set} setOpen={setOpen} />
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* Delete action: Alert Dialog for Delete */}
+            <DropdownMenuItem>
+              {/* <WeightDeleteDialog
+                id={weight.id}
+                weight_url={weight.weight_url || ""}
+              /> */}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       )
     },
   },
