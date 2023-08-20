@@ -5,6 +5,7 @@ import { Exercises } from "@/types/exercise"
 import { Profile } from "@/types/profile"
 import { Split, SplitGroup } from "@/types/split"
 import { Weight } from "@/types/weight"
+import { WorkoutSets } from "@/types/workout_sets"
 
 export const getUserProfile = async (user_id: string): Promise<Profile> => {
   const supabase = createSupabaseServerClient()
@@ -202,4 +203,25 @@ export const getExerciseInfo = async (id: string): Promise<Exercises> => {
   }
 
   return data as Exercises
+}
+
+export const getSetsForExercise = async (
+  user_id: string,
+  exercise_id: string
+): Promise<WorkoutSets[]> => {
+  const supabase = createSupabaseServerClient()
+
+  const { data, error } = await supabase
+    .from("workout_sets")
+    .select("*")
+    .eq("user_id", user_id)
+    .eq("exercise_id", exercise_id)
+    .order("created_at", { ascending: false })
+
+  if (error) {
+    console.error("Error fetching workout sets:", error.message)
+    throw error
+  }
+
+  return data as WorkoutSets[]
 }

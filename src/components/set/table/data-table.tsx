@@ -16,8 +16,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 
-import { getBucketPath } from "@/lib/bucket-path"
-import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
@@ -27,7 +25,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
+
+import { DataTablePagination } from "./data-table-pagination"
 
 // import { DataTablePagination } from "./data-table-pagination"
 
@@ -79,6 +78,41 @@ export function DataTable<TData, TValue>({
   React.useEffect(() => {
     handleSelectedRows()
   }, [rowSelection])
+
+  const handleDeleteSelectedRows = async () => {
+    // Delete the rows
+    const deletePromises = selectedRowsData.map(
+      (rowData) =>
+        supabaseClient
+          .from("workout_sets")
+          .delete()
+          // @ts-ignore
+          .eq("id", rowData.id)
+          .single(),
+    )
+
+    const results = await Promise.all(deletePromises)
+
+    // Check if any errors occurred during deletion
+    const hasErrors = results.some((result) => result.error)
+    if (hasErrors) {
+      toast({
+        title: "Something went wrong.",
+        description: "No update was made.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    toast({
+      description: "Your changes have been updated.",
+    })
+
+    setRowSelection({})
+
+    // Refresh the data or perform any other necessary action
+    router.refresh()
+  }
 
   return (
     <div className="space-y-4">
@@ -132,10 +166,10 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {/* <DataTablePagination
+      <DataTablePagination
         table={table}
         handleDeleteSelectedRows={handleDeleteSelectedRows}
-      /> */}
+      />
     </div>
   )
 }

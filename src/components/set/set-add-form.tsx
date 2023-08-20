@@ -33,6 +33,8 @@ interface Props {
 }
 
 export default function SetAddForm({ exercise_id, setOpen }: Props) {
+  const { supabaseClient } = useSessionContext()
+
   const router = useRouter()
   const user = useUser()
 
@@ -46,9 +48,35 @@ export default function SetAddForm({ exercise_id, setOpen }: Props) {
     },
   })
 
-  function onSubmit() {
+  async function onSubmit(data: FormData) {
     // need to implement
-    return
+    try {
+      const { error } = await supabaseClient.from("workout_sets").insert([
+        {
+          exercise_id: exercise_id,
+          weight: data.weight,
+          reps: data.reps,
+        },
+      ])
+
+      if (error) {
+        throw error
+      }
+
+      toast({
+        description: "Your changes have been updated.",
+      })
+
+      router.refresh()
+      setOpen(false)
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: "Error",
+        description: "Failed to add split",
+        variant: "destructive",
+      })
+    }
   }
 
   return (
@@ -61,7 +89,15 @@ export default function SetAddForm({ exercise_id, setOpen }: Props) {
             <FormItem>
               <FormLabel>Weight</FormLabel>
               <FormControl>
-                <Input placeholder="189" type="number" step={0.1} {...field} />
+                <Input
+                  placeholder="189"
+                  type="number"
+                  step={0.1}
+                  {...field}
+                  onChange={(event) =>
+                    field.onChange(event.target.valueAsNumber)
+                  }
+                />
               </FormControl>
               <FormDescription>Enter weight used</FormDescription>
               {form.formState.errors.weight && (
@@ -80,7 +116,14 @@ export default function SetAddForm({ exercise_id, setOpen }: Props) {
             <FormItem>
               <FormLabel>Reps</FormLabel>
               <FormControl>
-                <Input type="number" step={1} {...field} />
+                <Input
+                  type="number"
+                  step={1}
+                  {...field}
+                  onChange={(event) =>
+                    field.onChange(event.target.valueAsNumber)
+                  }
+                />
               </FormControl>
               <FormDescription>Enter Total Reps</FormDescription>
               {form.formState.errors.weight && (

@@ -60,7 +60,28 @@ export const columns: ColumnDef<WorkoutSets>[] = [
     header: "Reps",
   },
   {
-    accessorKey: "date",
-    header: "Date",
+    accessorKey: "created_at",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Created At
+          <Icons.arrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const time_stamp = row.getValue("created_at")
+
+      const { time, date } = formatCreatedAt(time_stamp)
+
+      return (
+        <>
+          {date}, {time}
+        </>
+      )
+    },
   },
 ]
