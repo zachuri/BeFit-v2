@@ -28,9 +28,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Icons } from "@/components/icons"
-import { WeightDeleteDialog } from "@/components/weight/table/column-actions/weight-delete-dialog"
-import { WeightUpdateForm } from "@/components/weight/table/column-actions/weight-update-form"
 
+import { SetDeleteDialog } from "./column-actions/set-delete-dialog"
 import SetUpdateForm from "./column-actions/set-update-form"
 
 export const columns: ColumnDef<WorkoutSets>[] = [
@@ -135,7 +134,7 @@ export const columns: ColumnDef<WorkoutSets>[] = [
               </DropdownMenuItem>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Add weight</DialogTitle>
+                  <DialogTitle>Update set</DialogTitle>
                   <DialogDescription>
                     Click save when you&apos;re done.
                   </DialogDescription>
@@ -150,10 +149,7 @@ export const columns: ColumnDef<WorkoutSets>[] = [
 
             {/* Delete action: Alert Dialog for Delete */}
             <DropdownMenuItem>
-              {/* <WeightDeleteDialog
-                id={weight.id}
-                weight_url={weight.weight_url || ""}
-              /> */}
+              <SetDeleteDialog id={set.id} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
