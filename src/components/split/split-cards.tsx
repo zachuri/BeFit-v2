@@ -49,7 +49,7 @@ export default function SplitCards({ splits }: Props) {
       {splits.length > 0 ? (
         // If there are splits for the group, display them
         splits.map((split) => (
-          <Link key={split.id} href={`workouts/split/${split.id}`}>
+          <Link key={split.id} href={`/workouts/split/${split.id}`}>
             <Card key={split.id}>
               {/* Assuming you have a unique 'id' for each split */}
               <CardHeader>
