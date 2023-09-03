@@ -2,7 +2,8 @@
 
 Welcome to BeFit v2! This is an application designed to help users track their gym progress, including diet, weight, and workouts. Whether you're a fitness enthusiast or a beginner, BeFit v2 is here to assist you in achieving your fitness goals.
 
-![BeFit Weight](https://www.zachuri.com/_next/image?url=%2Fassets%2Fprojects%2Fbefit-v2-1.png&w=1200&q=75)
+![BeFit Marketing Page](https://www.zachuri.com/_next/image?url=%2Fassets%2Fprojects%2Fbefit-v2.png&w=1200&q=75)
+![BeFit Home Page](https://www.zachuri.com/_next/image?url=%2Fassets%2Fprojects%2Fbefit-v2-1.png&w=1200&q=75)
 
 ## Tech Stack
 
