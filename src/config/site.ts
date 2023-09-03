@@ -10,7 +10,8 @@ export const siteConfig = {
     },
   ],
   links: {
+    twitter: "https://twitter.com/zachurii",
     github: "https://github.com/zachuri/BeFit-v2",
-    docs: "https://github.com/zachuri/BeFit-v2",
+    docs: "https://ui.shadcn.com",
   },
 }
