@@ -19,6 +19,7 @@ import {
 import { toast } from "@/components/ui/use-toast"
 
 import { Icons } from "../icons"
+import { Button } from "../ui/button"
 
 interface Props {
   split_id: string
@@ -86,7 +87,9 @@ export function ExerciseDeleteSplitDialog({ split_id, exercise_id }: Props) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Icons.trash />
+        <Button variant={"ghost"}>
+          <Icons.trash />
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
