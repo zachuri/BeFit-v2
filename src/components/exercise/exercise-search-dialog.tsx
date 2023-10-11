@@ -79,6 +79,8 @@ const ExerciseSearchDialog = ({ split_id }: Props) => {
         exercise,
       ])
     }
+
+    setSearchQuery("")
   }
 
   const handleExerciseRemove = (exercise: Exercises) => {
